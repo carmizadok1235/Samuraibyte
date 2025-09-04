@@ -10,7 +10,9 @@ import com.example.learning_gamedev.interfaces.BitmapMethods;
 
 public enum GameCharacters implements BitmapMethods {
     PLAYER(R.drawable.spritesheet),
-    GLADIATOR(R.drawable.redgladiator_spritesheet);
+    GLADIATOR(R.drawable.redgladiator_spritesheet),
+    BLUE_SAMURAI(R.drawable.samurai_blue_spritesheet),
+    BLACK_SORCERER(R.drawable.sorcerer_black_spritesheet);
 
 //    private Bitmap spriteSheet;
     private Bitmap[][] sprites;

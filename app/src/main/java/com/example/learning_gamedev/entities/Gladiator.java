@@ -11,13 +11,13 @@ public class Gladiator extends Enemy{
     private Random rnd;
 //    private PointF playerPos;
     public Gladiator(PointF pos) {
-        super(pos, GameCharacters.GLADIATOR);
+        super(pos, GameCharacters.BLACK_SORCERER);
         this.lastTime = System.currentTimeMillis();
         this.rnd = new Random();
 
 //        this.state = EnemyState.IDLE;
 //        this.sightRadius = 600;
-        this.weapon = new Weapon(new PointF(0,0),0,0, Weapons.BIG_SWORD, this);
+        this.weapon = new Weapon(new PointF(0,0),0,0, Weapons.LANCE, this);
     }
 
 //    public void setPlayerPos(PointF pos){

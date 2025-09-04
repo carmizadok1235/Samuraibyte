@@ -10,7 +10,8 @@ import com.example.learning_gamedev.GameConstants;
 
 public enum Weapons implements BitmapMethods {
     AXE(R.drawable.axe),
-    BIG_SWORD(R.drawable.big_sword);
+    BIG_SWORD(R.drawable.big_sword),
+    LANCE(R.drawable.lance);
 
     private Bitmap weaponImage;
     Weapons(int resId) {

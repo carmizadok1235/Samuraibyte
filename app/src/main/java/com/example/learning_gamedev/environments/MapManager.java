@@ -70,7 +70,7 @@ public class MapManager {
     }
 
     private void initMap() {
-        int[][] spriteIds = GameConstants.Map.MAP;
+        int[][] spriteIds = GameConstants.Map.MAP_2;
         this.currentMap = new GameMap(spriteIds, Tiles.OUTSIDE);
 
 //        this.initTrees();

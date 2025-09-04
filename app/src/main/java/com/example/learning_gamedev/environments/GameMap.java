@@ -28,7 +28,7 @@ public class GameMap {
     private void initMap() {
         this.initTrees();
 //        this.initStones();
-        this.mapObjectArrayList.add(new MapObject(new PointF(1200,900), MapObjects.HOUSE1));
+        this.mapObjectArrayList.add(new MapObject(new PointF(1200,900), MapObjects.HOUSE2));
         this.mapObjectArrayList.add(new MapObject(new PointF(3000,1200), MapObjects.HOUSE2));
         this.mapObjectArrayList.add(new MapObject(new PointF(1100,2300), MapObjects.LARGE_STONE));
         this.mapObjectArrayList.add(new MapObject(new PointF(1600,2600), MapObjects.MEDIUM_STONE1));
@@ -47,10 +47,11 @@ public class GameMap {
 
 
     private void initTrees(){
-        this.mapObjectArrayList.add(new MapObject(new PointF(0,0), MapObjects.TOP_LEFT_TREE_TRIANGLE));
-        this.mapObjectArrayList.add(new MapObject(new PointF(this.getMapWidth()-MapObjects.TOP_RIGHT_TREE_TRIANGLE.getWidth(),0), MapObjects.TOP_RIGHT_TREE_TRIANGLE));
-        this.mapObjectArrayList.add(new MapObject(new PointF(0,this.getMapHeight()-MapObjects.BOTTOM_LEFT_TREE_TRIANGLE.getHeight()), MapObjects.BOTTOM_LEFT_TREE_TRIANGLE));
-        this.mapObjectArrayList.add(new MapObject(new PointF(this.getMapWidth()-MapObjects.BOTTOM_RIGHT_TREE_TRIANGLE.getWidth(),this.getMapHeight()-MapObjects.BOTTOM_RIGHT_TREE_TRIANGLE.getHeight()), MapObjects.BOTTOM_RIGHT_TREE_TRIANGLE));
+        this.mapObjectArrayList.add(new MapObject(new PointF(0,0), MapObjects.TREE_SQUARE));
+//        this.mapObjectArrayList.add(new MapObject(new PointF(0,0), MapObjects.TOP_LEFT_TREE_TRIANGLE));
+//        this.mapObjectArrayList.add(new MapObject(new PointF(this.getMapWidth()-MapObjects.TOP_RIGHT_TREE_TRIANGLE.getWidth(),0), MapObjects.TOP_RIGHT_TREE_TRIANGLE));
+//        this.mapObjectArrayList.add(new MapObject(new PointF(0,this.getMapHeight()-MapObjects.BOTTOM_LEFT_TREE_TRIANGLE.getHeight()), MapObjects.BOTTOM_LEFT_TREE_TRIANGLE));
+//        this.mapObjectArrayList.add(new MapObject(new PointF(this.getMapWidth()-MapObjects.BOTTOM_RIGHT_TREE_TRIANGLE.getWidth(),this.getMapHeight()-MapObjects.BOTTOM_RIGHT_TREE_TRIANGLE.getHeight()), MapObjects.BOTTOM_RIGHT_TREE_TRIANGLE));
     }
     public Entity[] getDrawableArray(){
         Entity[] drawables = new Entity[this.getDrawablesLength()];

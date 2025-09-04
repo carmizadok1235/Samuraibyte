@@ -17,9 +17,9 @@ public class Player extends GameCharacter{
     private Paint redPaint;
     private float lastCameraYValue;
     public Player() {
-        super(new PointF(MainActivity.GAME_WIDTH/2, MainActivity.GAME_HEIGHT/2), GameCharacters.PLAYER);
+        super(new PointF(MainActivity.GAME_WIDTH/2, MainActivity.GAME_HEIGHT/2), GameCharacters.BLUE_SAMURAI);
 
-        this.weapon = new Weapon(new PointF(0, 0), 0, 0, Weapons.BIG_SWORD, this);
+        this.weapon = new Weapon(new PointF(0, 0), 0, 0, Weapons.LANCE, this);
         this.attacking = false;
         this.base_speed = GameConstants.Walking.BASE_PLAYER_SPEED;
 

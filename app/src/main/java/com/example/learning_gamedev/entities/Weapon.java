@@ -58,15 +58,15 @@ public class Weapon extends Entity{
                     this.weaponHolder.getHitbox().bottom + 0f * SCALE_SIZE
             );
             case GameConstants.WalkingDirection.UP -> new PointF(
-                    this.weaponHolder.getHitbox().left - 0.5f * SCALE_SIZE,
-                    this.weaponHolder.getHitbox().top - this.weaponType.getHeight() - Y_DRAW_OFFSET
+                    this.weaponHolder.getHitbox().left - 1.5f*SCALE_SIZE,
+                    this.weaponHolder.getHitbox().top - this.weaponType.getHeight() - 3f*SCALE_SIZE
             );
             case GameConstants.WalkingDirection.RIGHT -> new PointF(
-                    this.weaponHolder.getHitbox().right + X_DRAW_OFFSET,
-                    this.weaponHolder.getHitbox().bottom - this.weaponType.getWidth() - 0.5f * SCALE_SIZE
+                    this.weaponHolder.getHitbox().right + 0.5f*X_DRAW_OFFSET,
+                    this.weaponHolder.getHitbox().bottom - this.weaponType.getWidth() - 1.5f * SCALE_SIZE
             );
             case GameConstants.WalkingDirection.LEFT -> new PointF(
-                    this.weaponHolder.getHitbox().left - this.weaponType.getHeight() - X_DRAW_OFFSET,
+                    this.weaponHolder.getHitbox().left - this.weaponType.getHeight() - 0.5f*X_DRAW_OFFSET,
                     this.weaponHolder.getHitbox().bottom - this.weaponType.getWidth() - 0.5f * SCALE_SIZE
             );
             default -> throw new IllegalStateException("Unexpected Direction");
