@@ -21,9 +21,11 @@ public class Enemy extends GameCharacter{
     protected RectF playerHitbox;
     protected boolean alignedWithPlayer;
     protected boolean horizontalSide;
-    private long lastTimeCheck = System.currentTimeMillis();
-    private boolean retreat;
-    private PointF retreatPoint;
+//    private long lastTimeCheck = System.currentTimeMillis();
+//    private boolean retreat;
+//    private PointF retreatPoint;
+//    private boolean startedRetreatTimer;
+    private long lastTime;
 
     public Enemy(PointF pos, GameCharacters character){
         super(pos, character);
@@ -36,8 +38,10 @@ public class Enemy extends GameCharacter{
         this.base_speed = GameConstants.Walking.BASE_ENEMY_SPEED;
         this.alignedWithPlayer = false;
         this.horizontalSide = getRandomBoolean(0.5f);
-        this.retreat = false;
-        this.retreatPoint = new PointF();
+//        this.retreat = false;
+//        this.startedRetreatTimer = false;
+//        this.retreatPoint = new PointF();
+        this.lastTime = -1;
     }
 
     public void setPlayerHitbox(RectF hitbox){
@@ -80,6 +84,10 @@ public class Enemy extends GameCharacter{
         switch (this.state){
             case IDLE:
                 break;
+            case RETREATING:
+                this.updateAnimation();
+                this.retreatTimer();
+                break;
             case PURSUING:
                 this.updateAnimation();
 //                PointF deltaSpeed = this.updateMove(delta, this.playerPos, new PointF(this.hitbox.left, this.hitbox.top));
@@ -94,6 +102,17 @@ public class Enemy extends GameCharacter{
                 break;
         }
         this.weapon.update(delta);
+    }
+
+    private void retreatTimer() {
+        if (this.lastTime == -1)
+            this.lastTime = System.currentTimeMillis();
+
+        long currTime = System.currentTimeMillis();
+        if (currTime - this.lastTime >= 500){
+            this.state = EnemyState.IDLE;
+            this.lastTime = -1;
+        }
     }
 
     private void updateAttackDir() {
@@ -115,13 +134,16 @@ public class Enemy extends GameCharacter{
 
     }
 
-    private void checkEnemyAlignedWithPlayer() {
-        this.alignedWithPlayer = this.weapon.getHitbox().intersects(
-                this.playerHitbox.left,
-                this.playerHitbox.top,
-                this.playerHitbox.right,
-                this.playerHitbox.bottom
-        );
+//    private void checkEnemyAlignedWithPlayer() {
+//        this.alignedWithPlayer = this.weapon.getHitbox().intersects(
+//                this.playerHitbox.left,
+//                this.playerHitbox.top,
+//                this.playerHitbox.right,
+//                this.playerHitbox.bottom
+//        );
+//    }
+    public PointF getRetreatPos(){
+        return new PointF(2*this.hitbox.left-this.playerHitbox.left, 2*this.hitbox.top-this.playerHitbox.top);
     }
 
     public PointF getTargetPos(){
@@ -141,16 +163,21 @@ public class Enemy extends GameCharacter{
         return targetPos;
     }
     private void updateEnemyState(){
+        if (this.state == EnemyState.RETREATING)
+            return;
         PointF a = new PointF(this.hitbox.centerX(), this.hitbox.centerY());
         PointF b = new PointF(this.playerHitbox.centerX(), this.playerHitbox.centerY());
 
         if (isInsideCircle(b, a, this.attackingRadius)){
+            if (!getRandomBoolean(0.002f))
+                this.state = EnemyState.ATTACKING;
+            else
+                this.state = EnemyState.RETREATING;
 //            System.out.println("hello world!");
-            this.state = EnemyState.ATTACKING;
 //            this.attacking = true;
         }
         else if (isInsideCircle(b, a, this.sightRadius) && !CollisionManager.lineOfSightIntersectsWithObject(a,b)){
-            if (!getRandomBoolean(0.02f))
+            if (!getRandomBoolean(0.002f))
                 this.state = EnemyState.PURSUING;
             else
                 this.state = EnemyState.RETREATING;

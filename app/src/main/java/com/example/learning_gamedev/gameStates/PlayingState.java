@@ -97,7 +97,7 @@ public class PlayingState extends BaseState implements GameStateInterface {
                     RectF newPlayerHitbox = getHitboxCopyWithAddition(this.player.getHitbox(), this.cameraX, this.cameraY);
                     enemy.setPlayerHitbox(newPlayerHitbox);
                     enemy.update(delta);
-                    if (enemy.getState() == EnemyState.PURSUING)
+                    if (enemy.getState() == EnemyState.PURSUING || enemy.getState() == EnemyState.RETREATING)
                         this.updateEnemyMove(delta, enemy, newPlayerHitbox);
                 }
             }
@@ -139,7 +139,11 @@ public class PlayingState extends BaseState implements GameStateInterface {
 //            else
 //                targetPos.y = newPlayerPos.y-125;
 //        }
-        PointF targetPos = enemy.getTargetPos();
+        PointF targetPos = null;
+        if (enemy.getState() == EnemyState.PURSUING)
+            targetPos = enemy.getTargetPos();
+        else
+            targetPos = enemy.getRetreatPos();
 
         PointF deltaSpeed = enemy.updateMove(deltaTime, targetPos, new PointF(enemy.getHitbox().left, enemy.getHitbox().top));
 //        RectF hitboxCopy = new RectF(
