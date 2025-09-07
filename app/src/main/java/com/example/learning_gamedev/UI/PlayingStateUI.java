@@ -1,11 +1,14 @@
 package com.example.learning_gamedev.UI;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.view.MotionEvent;
 
+import com.example.learning_gamedev.R;
 import com.example.learning_gamedev.gameStates.GameStates;
 import com.example.learning_gamedev.gameStates.PlayingState;
 import com.example.learning_gamedev.main.MainActivity;
@@ -14,10 +17,11 @@ import static com.example.learning_gamedev.utils.Utils.isInsideCircle;
 public class PlayingStateUI {
     private final PlayingState playingState;
     private CustomButton menuButton;
+    private CustomButton attackButton;
 
     // For UI
 //    private float xCenter, yCenter, radius;
-    private PointF joystickCenterPos, attackButtonCenterPos;
+    private PointF joystickCenterPos, innerJoystickCenterPos, attackButtonCenterPos;
     private float radius;
     private Paint redPaint, bluePaint;
     private boolean insideJoystickTouch;
@@ -29,10 +33,12 @@ public class PlayingStateUI {
     public PlayingStateUI(PlayingState playingState){
         this.playingState = playingState;
         this.menuButton = new CustomButton(20,20, ButtonImages.MENU);
+        this.attackButton = new CustomButton(MainActivity.GAME_WIDTH - MainActivity.GAME_WIDTH/7, MainActivity.GAME_HEIGHT - MainActivity.GAME_HEIGHT/4, ButtonImages.ATTACK_BUTTON);
 //        this.xCenter = MainActivity.GAME_WIDTH/7;
 //        this.yCenter = MainActivity.GAME_HEIGHT - MainActivity.GAME_HEIGHT/4;
         this.attackButtonCenterPos = new PointF(MainActivity.GAME_WIDTH - MainActivity.GAME_WIDTH/7, MainActivity.GAME_HEIGHT - MainActivity.GAME_HEIGHT/4);
         this.joystickCenterPos = new PointF(MainActivity.GAME_WIDTH/7, MainActivity.GAME_HEIGHT - MainActivity.GAME_HEIGHT/4);
+        this.innerJoystickCenterPos = new PointF(MainActivity.GAME_WIDTH/7, MainActivity.GAME_HEIGHT - MainActivity.GAME_HEIGHT/4);
         this.radius = 150;
         this.redPaint = new Paint();
         this.redPaint.setColor(Color.RED);
@@ -47,14 +53,42 @@ public class PlayingStateUI {
         this.insideAttackButtonPointerId = -1;
     }
     public void draw(Canvas c){
-        c.drawCircle(this.joystickCenterPos.x, this.joystickCenterPos.y, this.radius, this.bluePaint);
-        c.drawCircle(this.attackButtonCenterPos.x, this.attackButtonCenterPos.y, this.radius, this.redPaint);
+//        c.drawCircle(this.joystickCenterPos.x, this.joystickCenterPos.y, this.radius, this.bluePaint);
+//        c.drawCircle(this.attackButtonCenterPos.x, this.attackButtonCenterPos.y, this.radius, this.redPaint);
+//        Bitmap outerCircle = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.outer_joystick);
+//        outerCircle = Bitmap.createScaledBitmap(outerCircle, 300, 300, false);
+//        c.drawBitmap(outerCircle, this.joystickCenterPos.x-this.radius, this.joystickCenterPos.y-this.radius, null);
+//
+//        Bitmap innerCircle = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.inner_joystick_resized);
+//        innerCircle = Bitmap.createScaledBitmap(innerCircle, 140, 140, false);
+//        c.drawBitmap(innerCircle, this.innerJoystickCenterPos.x-70, this.innerJoystickCenterPos.y-70, null);
+        // joystick (inner and outer)
+        this.drawJoystick(c);
+
+        // attack button
+        c.drawBitmap(
+                this.attackButton.getButtonImage(),
+                this.attackButtonCenterPos.x-this.radius/2,
+                this.attackButtonCenterPos.y-this.radius/2,
+                null
+        );
+
+        // home button
         c.drawBitmap(
                 this.menuButton.getButtonImage(),
                 this.menuButton.getHitBox().left,
                 this.menuButton.getHitBox().top,
                 null
         );
+    }
+    private void drawJoystick(Canvas c){
+        Bitmap outerCircle = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.outer_joystick);
+        outerCircle = Bitmap.createScaledBitmap(outerCircle, 300, 300, false);
+        c.drawBitmap(outerCircle, this.joystickCenterPos.x-this.radius, this.joystickCenterPos.y-this.radius, null);
+
+        Bitmap innerCircle = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.inner_joystick_resized);
+        innerCircle = Bitmap.createScaledBitmap(innerCircle, 140, 140, false);
+        c.drawBitmap(innerCircle, this.innerJoystickCenterPos.x-70, this.innerJoystickCenterPos.y-70, null);
     }
 //    private boolean isInsideCircle(PointF eventPos, PointF circlePos){
 //        float a = Math.abs(eventPos.x - circlePos.x);
@@ -103,6 +137,7 @@ public class PlayingStateUI {
                 else if (this.isInsideAttackButton(eventPos) && insideAttackButtonPointerId == -1){
                     this.insideAttackButtonPointerId = pointerId;
                     this.playingState.setAttacking(true);
+                    this.attackButton.setPushed(true);
                 }
                 else if (this.menuButton.isInButton(eventPos)){
                     this.menuButton.setPointerId(pointerId);
@@ -113,6 +148,13 @@ public class PlayingStateUI {
                 if (this.insideJoystickTouch){
                     for (int i = 0; i < event.getPointerCount(); i++){
                         if (event.getPointerId(i) == this.insideJoystickPointerId){
+                            float x = event.getX(i);
+                            float y = event.getY(i);
+//                            System.out.println("X: " + x + " Y: " + y);
+                            if (isInsideCircle(new PointF(x,y),this.joystickCenterPos, this.radius)){
+                                this.innerJoystickCenterPos.x = x;
+                                this.innerJoystickCenterPos.y = y;
+                            }
 //                            float xDiff = event.getX(i) - this.joystickCenterPos.x;
 //                            float yDiff = event.getY(i) - this.joystickCenterPos.y;
 
@@ -134,6 +176,7 @@ public class PlayingStateUI {
                 else if (pointerId == this.insideAttackButtonPointerId){
                     this.insideAttackButtonPointerId = -1;
                     this.playingState.setAttacking(false);
+                    this.attackButton.setPushed(false);
                 }
                 else if (this.menuButton.isInButton(eventPos)){
                     this.resetJoystickButton();
@@ -147,6 +190,8 @@ public class PlayingStateUI {
         }
     }
     private void resetJoystickButton(){
+        this.innerJoystickCenterPos.x = MainActivity.GAME_WIDTH/7;
+        this.innerJoystickCenterPos.y = MainActivity.GAME_HEIGHT - MainActivity.GAME_HEIGHT/4;
         this.insideJoystickTouch = false;
         this.playingState.setPlayerMove(false, null);
         this.insideJoystickPointerId = -1;
