@@ -19,6 +19,7 @@ public class Enemy extends GameCharacter{
     protected int sightRadius;
     protected int attackingRadius;
     protected RectF playerHitbox;
+    protected Player player;
     protected boolean alignedWithPlayer;
     protected boolean horizontalSide;
 //    private long lastTimeCheck = System.currentTimeMillis();

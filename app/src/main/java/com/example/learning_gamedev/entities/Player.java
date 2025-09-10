@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 
 import com.example.learning_gamedev.GameConstants;
+import com.example.learning_gamedev.UI.HeartLevels;
 import com.example.learning_gamedev.main.MainActivity;
 
 public class Player extends GameCharacter{
@@ -16,6 +17,7 @@ public class Player extends GameCharacter{
     // temporary
     private Paint redPaint;
     private float lastCameraYValue;
+    private HeartLevels heartLevel;
     public Player() {
         super(new PointF(MainActivity.GAME_WIDTH/2, MainActivity.GAME_HEIGHT/2), GameCharacters.BLUE_SAMURAI);
 
@@ -27,10 +29,28 @@ public class Player extends GameCharacter{
         this.redPaint.setColor(Color.RED);
         this.redPaint.setStyle(Paint.Style.STROKE);
         this.redPaint.setStrokeWidth(1);
+
+        this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
     }
     public void update(double delta){
         this.updateAnimation();
+        this.updateHeartLevel();
         this.weapon.update(delta);
+    }
+
+    private void updateHeartLevel() {
+//        System.out.println(this.heartLevel);
+        if (this.health == 1)
+            this.heartLevel = HeartLevels.HEART_LEVEL_ONE;
+        if (this.health == 2)
+            this.heartLevel = HeartLevels.HEART_LEVEL_TWO;
+        if (this.health == 3)
+            this.heartLevel = HeartLevels.HEART_LEVEL_THREE;
+        if (this.health == 4)
+            this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
+    }
+    public HeartLevels getHeartLevel(){
+        return this.heartLevel;
     }
 
     public void setLastCameraYValue(float lastCameraYValue) {
