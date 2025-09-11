@@ -85,11 +85,12 @@ public class PlayingStateUI {
 
     private void drawHeartLevel(Canvas c) {
         switch (this.playingState.getPlayer().getHeartLevel()){
+            case HEART_LEVEL_ZERO -> c.drawBitmap(HeartImages.HEART_ZERO.getImage(), 10, 300, null);
             case HEART_LEVEL_ONE -> c.drawBitmap(HeartImages.HEART_ONE.getImage(), 10, 300, null);
             case HEART_LEVEL_TWO -> c.drawBitmap(HeartImages.HEART_TWO.getImage(), 10, 300, null);
             case HEART_LEVEL_THREE -> c.drawBitmap(HeartImages.HEART_THREE.getImage(), 10, 300, null);
             case HEART_LEVEL_FOUR -> c.drawBitmap(HeartImages.HEART_FOUR.getImage(), 10, 300, null);
-
+            default -> c.drawBitmap(HeartImages.HEART_ZERO.getImage(), 10, 300, null);
         }
     }
 

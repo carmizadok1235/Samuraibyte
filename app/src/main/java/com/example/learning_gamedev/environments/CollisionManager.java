@@ -3,6 +3,7 @@ package com.example.learning_gamedev.environments;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
+import com.example.learning_gamedev.entities.Enemy;
 import com.example.learning_gamedev.entities.GameCharacter;
 import com.example.learning_gamedev.entities.MapObject;
 import com.example.learning_gamedev.entities.Player;
@@ -10,6 +11,7 @@ import com.example.learning_gamedev.utils.LinearFunction;
 
 import static com.example.learning_gamedev.GameConstants.SpriteSizes.Y_DRAW_OFFSET;
 import static com.example.learning_gamedev.GameConstants.SpriteSizes.X_DRAW_OFFSET;
+import static com.example.learning_gamedev.utils.Utils.getHitboxCopyWithAddition;
 
 import java.util.ArrayList;
 
@@ -17,6 +19,8 @@ public class CollisionManager {
     private static int mapBoundX, mapBoundY;
     private static ArrayList<GameCharacter> characterArrayList;
     private static ArrayList<MapObject> mapObjectArrayList;
+    private static Player player;
+    private static float xPosCamera, yPosCamera;
 
     public static boolean lineOfSightIntersectsWithObject(PointF a, PointF b){
         LinearFunction line = new LinearFunction(a, b);
@@ -59,12 +63,12 @@ public class CollisionManager {
     public static void setMapObjectArrayList(ArrayList<MapObject> newMapObjectArrayList){
         mapObjectArrayList = newMapObjectArrayList;
     }
-    public static void checkPlayerAttack(Player player, float cameraX, float cameraY){
-        RectF weaponHitbox = new RectF();
-        weaponHitbox.left = player.getWeapon().getHitbox().left + cameraX;
-        weaponHitbox.top = player.getWeapon().getHitbox().top + cameraY;
-        weaponHitbox.right = player.getWeapon().getHitbox().right + cameraX;
-        weaponHitbox.bottom = player.getWeapon().getHitbox().bottom + cameraY;
+    public static void checkPlayerAttack(){
+        RectF weaponHitbox = getHitboxCopyWithAddition(player.getWeapon().getHitbox(), xPosCamera, yPosCamera);
+//        weaponHitbox.left = player.getWeapon().getHitbox().left + cameraX;
+//        weaponHitbox.top = player.getWeapon().getHitbox().top + cameraY;
+//        weaponHitbox.right = player.getWeapon().getHitbox().right + cameraX;
+//        weaponHitbox.bottom = player.getWeapon().getHitbox().bottom + cameraY;
 
         for (GameCharacter c : characterArrayList)
             if (weaponHitbox.intersects(
@@ -73,8 +77,26 @@ public class CollisionManager {
                     c.getHitbox().right,
                     c.getHitbox().bottom
             ))
-                c.setActive(false);
+                c.setHealth(c.getHealth()-player.getDamage());
+//                c.setActive(false);
 
 //        this.attackChecked = true;
+    }
+    public static void checkEnemyAttack(Enemy source){
+        RectF playerHitbox = getHitboxCopyWithAddition(player.getHitbox(), xPosCamera, yPosCamera);
+        if (source.getWeapon().getHitbox().intersects(
+                playerHitbox.left,
+                playerHitbox.top,
+                playerHitbox.right,
+                playerHitbox.bottom
+        ))
+            player.setHealth(player.getHealth()-source.getDamage());
+    }
+    public static void setPlayer(Player p){
+        player = p;
+    }
+    public static void setPosCamera(float x, float y){
+        xPosCamera = x;
+        yPosCamera = y;
     }
 }

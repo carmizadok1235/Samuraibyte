@@ -5,12 +5,11 @@ import android.graphics.PointF;
 import com.example.learning_gamedev.GameConstants;
 import com.example.learning_gamedev.entities.Entity;
 import com.example.learning_gamedev.entities.GameCharacter;
-import com.example.learning_gamedev.entities.Gladiator;
+import com.example.learning_gamedev.entities.BlackSorcerer;
 import com.example.learning_gamedev.entities.MapObject;
 import com.example.learning_gamedev.entities.MapObjects;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GameMap {
     private int[][] spriteIndexes;
@@ -42,7 +41,7 @@ public class GameMap {
         }
     }
     public void addGladiator(float x, float y){
-        this.charactersArrayList.add(new Gladiator(new PointF(x, y)));
+        this.charactersArrayList.add(new BlackSorcerer(new PointF(x, y)));
     }
 
 

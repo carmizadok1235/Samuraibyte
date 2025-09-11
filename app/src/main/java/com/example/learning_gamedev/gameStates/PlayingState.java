@@ -15,7 +15,7 @@ import com.example.learning_gamedev.environments.CollisionManager;
 import com.example.learning_gamedev.main.Game;
 import com.example.learning_gamedev.main.GamePanel;
 import com.example.learning_gamedev.entities.GameCharacter;
-import com.example.learning_gamedev.entities.Gladiator;
+import com.example.learning_gamedev.entities.BlackSorcerer;
 import com.example.learning_gamedev.entities.Player;
 import com.example.learning_gamedev.environments.MapManager;
 import com.example.learning_gamedev.interfaces.GameStateInterface;
@@ -34,7 +34,7 @@ public class PlayingState extends BaseState implements GameStateInterface {
 //    private BuildingManager buildingManager;
     private PlayingStateUI playingStateUI;
     private Player player;
-    private final ArrayList<Gladiator> gladiators;
+    private final ArrayList<BlackSorcerer> gladiators;
     private final Weapons axe;
     // For UI
     private Paint redPaint, yellowPaint;
@@ -71,17 +71,19 @@ public class PlayingState extends BaseState implements GameStateInterface {
 //        if (!this.drawablesInitialized){
 //            this.initDrawables();
 //        }
+//        System.out.println(this.player.getHitbox());
         if (this.playerMove){
             this.updatePlayerMove(delta);
             this.player.update(delta);
         }
+        this.player.updateHeartLevel();
         this.mapManager.setCameraValues(this.cameraX, this.cameraY);
 //        this.buildingManager.setCameraValues(this.cameraX, this.cameraY);
 //        System.out.println("cameraX:" + this.cameraX + "cameraY: " + this.cameraY);
 
         if (this.player.isAttacking())
             if (!this.attackChecked){
-                CollisionManager.checkPlayerAttack(this.player, this.cameraX, this.cameraY);
+                CollisionManager.checkPlayerAttack();
                 this.attackChecked = true;
             }
 
@@ -338,9 +340,9 @@ public class PlayingState extends BaseState implements GameStateInterface {
     public void touchEvents(MotionEvent event) {
         this.playingStateUI.touchEvents(event);
     }
-    public void addGladiator(){
-        this.gladiators.add(new Gladiator(new PointF(this.player.getHitbox().left+this.cameraX, this.player.getHitbox().top+this.cameraY)));
-    }
+//    public void addGladiator(){
+//        this.gladiators.add(new BlackSorcerer(new PointF(this.player.getHitbox().left+this.cameraX, this.player.getHitbox().top+this.cameraY)));
+//    }
 
     public void setAttacking(boolean attacking) {
         this.player.setAttacking(attacking);

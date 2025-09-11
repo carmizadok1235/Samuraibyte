@@ -8,6 +8,7 @@ import com.example.learning_gamedev.interfaces.BitmapMethods;
 import com.example.learning_gamedev.main.MainActivity;
 
 public enum HeartImages implements BitmapMethods {
+    HEART_ZERO(R.drawable.heart_zero),
     HEART_ONE(R.drawable.heart_one),
     HEART_TWO(R.drawable.heart_two),
     HEART_THREE(R.drawable.heart_three),

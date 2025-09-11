@@ -1,8 +1,5 @@
 package com.example.learning_gamedev.entities;
 
-import static com.example.learning_gamedev.GameConstants.Animation.SHADOW_OFFSET;
-
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
@@ -31,23 +28,35 @@ public class Player extends GameCharacter{
         this.redPaint.setStrokeWidth(1);
 
         this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
+        this.health = 4;
+        this.damage = 1;
     }
     public void update(double delta){
         this.updateAnimation();
-        this.updateHeartLevel();
+//        this.updateHeartLevel();
         this.weapon.update(delta);
     }
 
-    private void updateHeartLevel() {
+    public void updateHeartLevel() {
 //        System.out.println(this.heartLevel);
-        if (this.health == 1)
-            this.heartLevel = HeartLevels.HEART_LEVEL_ONE;
-        if (this.health == 2)
-            this.heartLevel = HeartLevels.HEART_LEVEL_TWO;
-        if (this.health == 3)
-            this.heartLevel = HeartLevels.HEART_LEVEL_THREE;
-        if (this.health == 4)
-            this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
+//        System.out.println(this.health);
+//        if (Math.round(this.health) == 0)
+//            this.heartLevel = HeartLevels.HEART_LEVEL_ZERO;
+//        else if (this.health == 1)
+//            this.heartLevel = HeartLevels.HEART_LEVEL_ONE;
+//        else if (this.health == 2)
+//            this.heartLevel = HeartLevels.HEART_LEVEL_TWO;
+//        else if (this.health == 3)
+//            this.heartLevel = HeartLevels.HEART_LEVEL_THREE;
+//        else if (this.health == 4)
+//            this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
+        switch (Math.round(this.health)){
+            case 0 -> this.heartLevel = HeartLevels.HEART_LEVEL_ZERO;
+            case 1 -> this.heartLevel = HeartLevels.HEART_LEVEL_ONE;
+            case 2 -> this.heartLevel = HeartLevels.HEART_LEVEL_TWO;
+            case 3 -> this.heartLevel = HeartLevels.HEART_LEVEL_THREE;
+            case 4 -> this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
+        }
     }
     public HeartLevels getHeartLevel(){
         return this.heartLevel;

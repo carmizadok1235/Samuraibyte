@@ -10,7 +10,7 @@ import com.example.learning_gamedev.EnemyState;
 import com.example.learning_gamedev.GameConstants;
 import com.example.learning_gamedev.environments.CollisionManager;
 
-public class Enemy extends GameCharacter{
+public abstract class Enemy extends GameCharacter{
     protected EnemyState state;
     private int attackSpeed = 5;
     private int waitForNextAttackSpeed = 20;
@@ -22,6 +22,7 @@ public class Enemy extends GameCharacter{
     protected Player player;
     protected boolean alignedWithPlayer;
     protected boolean horizontalSide;
+    private boolean didAttack;
 //    private long lastTimeCheck = System.currentTimeMillis();
 //    private boolean retreat;
 //    private PointF retreatPoint;
@@ -43,6 +44,8 @@ public class Enemy extends GameCharacter{
 //        this.startedRetreatTimer = false;
 //        this.retreatPoint = new PointF();
         this.lastTime = -1;
+//        this.health = 8;
+        this.didAttack = false;
     }
 
     public void setPlayerHitbox(RectF hitbox){
@@ -54,6 +57,8 @@ public class Enemy extends GameCharacter{
 
     @Override
     public void update(double delta) {
+        if (this.health == 0)
+            this.setActive(false);
 //        PointF a = new PointF(this.hitbox.centerX(), this.hitbox.centerY());
 //        PointF b = new PointF(this.playerPos.x+HITBOX_SIZE/2f, this.playerPos.y+HITBOX_SIZE/2f);
 //        System.out.println("a: " + a + " b: " + b);
@@ -100,6 +105,8 @@ public class Enemy extends GameCharacter{
             case ATTACKING:
                 this.updateAttackDir();
                 this.updateAttackingAnimation();
+                if (!this.didAttack && this.attacking)
+                    CollisionManager.checkEnemyAttack(this);
                 break;
         }
         this.weapon.update(delta);
@@ -192,6 +199,7 @@ public class Enemy extends GameCharacter{
     }
     private void updateAttackingAnimation(){
         if (this.attacking){
+            this.didAttack = true;
             this.attackTick+=1;
             if (this.attackTick >= this.attackSpeed){
                 this.attackTick = 0;
@@ -200,6 +208,7 @@ public class Enemy extends GameCharacter{
             }
         }
         else{
+            this.didAttack = false;
             this.waitForNextAttackTick+=1;
             if (this.waitForNextAttackTick >= this.waitForNextAttackSpeed){
                 this.waitForNextAttackTick = 0;

@@ -4,13 +4,13 @@ import android.graphics.PointF;
 
 import java.util.Random;
 
-public class Gladiator extends Enemy{
+public class BlackSorcerer extends Enemy{
     private double lastTime;
 //    private EnemyState state;
 //    private int sightRadius;
     private Random rnd;
 //    private PointF playerPos;
-    public Gladiator(PointF pos) {
+    public BlackSorcerer(PointF pos) {
         super(pos, GameCharacters.BLACK_SORCERER);
         this.lastTime = System.currentTimeMillis();
         this.rnd = new Random();
@@ -18,6 +18,8 @@ public class Gladiator extends Enemy{
 //        this.state = EnemyState.IDLE;
 //        this.sightRadius = 600;
         this.weapon = new Weapon(new PointF(0,0),0,0, Weapons.LANCE, this);
+        this.health = 8;
+        this.damage = 0.2f;
     }
 
 //    public void setPlayerPos(PointF pos){

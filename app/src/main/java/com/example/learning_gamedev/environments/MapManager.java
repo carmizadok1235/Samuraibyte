@@ -8,10 +8,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.example.learning_gamedev.GameConstants;
-import com.example.learning_gamedev.entities.Enemy;
 import com.example.learning_gamedev.entities.Entity;
-import com.example.learning_gamedev.entities.GameCharacter;
-import com.example.learning_gamedev.entities.Gladiator;
+import com.example.learning_gamedev.entities.BlackSorcerer;
 import com.example.learning_gamedev.entities.MapObject;
 import com.example.learning_gamedev.entities.Player;
 
@@ -80,6 +78,8 @@ public class MapManager {
         CollisionManager.setMapBounds(this.getMapWidth(), this.getMapHeight());
         CollisionManager.setCharacterArrayList(this.currentMap.getCharactersArrayList());
         CollisionManager.setMapObjectArrayList(this.currentMap.getMapObjectArrayList());
+        CollisionManager.setPlayer(this.player);
+//        CollisionManager.setPosCamera(this.cameraX, this.cameraY);
     }
 
     private void initMap() {
@@ -106,6 +106,8 @@ public class MapManager {
 //    }
 
     public void update(){
+//        System.out.println(this.player.getHitbox());
+        CollisionManager.setPosCamera(this.cameraX, this.cameraY);
         if (!this.drawablesInitialized){
             this.initDrawablesArray();
         }
@@ -148,7 +150,7 @@ public class MapManager {
                 p.draw(c, 0, 0);
 
             }
-            else if (entity instanceof Gladiator g){
+            else if (entity instanceof BlackSorcerer g){
                 c.drawCircle(g.getHitbox().left+HITBOX_SIZE/2f-this.cameraX,g.getHitbox().top+HITBOX_SIZE/2f-this.cameraY,g.getSightRadius(), this.redPaint);
                 c.drawCircle(g.getHitbox().left+HITBOX_SIZE/2f-this.cameraX,g.getHitbox().top+HITBOX_SIZE/2f-this.cameraY,g.getAttackingRadius(), this.redPaint);
                 g.draw(c, this.cameraX, this.cameraY);
