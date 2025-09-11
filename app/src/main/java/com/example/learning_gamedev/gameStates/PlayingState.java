@@ -330,6 +330,9 @@ public class PlayingState extends BaseState implements GameStateInterface {
         else
             this.player.resetAnimation();
     }
+    public Player getPlayer(){
+        return this.player;
+    }
 
     @Override
     public void touchEvents(MotionEvent event) {

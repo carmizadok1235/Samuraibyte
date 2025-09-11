@@ -15,6 +15,7 @@ import com.example.learning_gamedev.UI.GameImages;
 
 public abstract class GameCharacter extends Entity{
     protected Weapon weapon;
+    protected int health;
     protected boolean attacking;
     protected int aniTick, aniIndex;
     protected int faceDir;
@@ -31,6 +32,7 @@ public abstract class GameCharacter extends Entity{
         this.character = character;
 
         this.weapon = null;
+        this.health = 4;
         this.attacking = false;
 
         this.shadow = GameImages.SHADOW;
@@ -155,6 +157,10 @@ public abstract class GameCharacter extends Entity{
         return this.weapon;
     }
     public void setAttacking(boolean attacking){
+//        if (attacking){
+//            this.health--;
+//            System.out.println(this.health);
+//        }
         this.attacking = attacking;
     }
     public boolean isAttacking(){

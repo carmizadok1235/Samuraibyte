@@ -64,6 +64,7 @@ public class PlayingStateUI {
 //        c.drawBitmap(innerCircle, this.innerJoystickCenterPos.x-70, this.innerJoystickCenterPos.y-70, null);
         // joystick (inner and outer)
         this.drawJoystick(c);
+        this.drawHeartLevel(c);
 
         // attack button
         c.drawBitmap(
@@ -81,6 +82,17 @@ public class PlayingStateUI {
                 null
         );
     }
+
+    private void drawHeartLevel(Canvas c) {
+        switch (this.playingState.getPlayer().getHeartLevel()){
+            case HEART_LEVEL_ONE -> c.drawBitmap(HeartImages.HEART_ONE.getImage(), 10, 300, null);
+            case HEART_LEVEL_TWO -> c.drawBitmap(HeartImages.HEART_TWO.getImage(), 10, 300, null);
+            case HEART_LEVEL_THREE -> c.drawBitmap(HeartImages.HEART_THREE.getImage(), 10, 300, null);
+            case HEART_LEVEL_FOUR -> c.drawBitmap(HeartImages.HEART_FOUR.getImage(), 10, 300, null);
+
+        }
+    }
+
     private void drawJoystick(Canvas c){
         Bitmap outerCircle = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.outer_joystick);
         outerCircle = Bitmap.createScaledBitmap(outerCircle, 300, 300, false);

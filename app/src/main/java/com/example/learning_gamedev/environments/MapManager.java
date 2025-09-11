@@ -8,7 +8,9 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.example.learning_gamedev.GameConstants;
+import com.example.learning_gamedev.entities.Enemy;
 import com.example.learning_gamedev.entities.Entity;
+import com.example.learning_gamedev.entities.GameCharacter;
 import com.example.learning_gamedev.entities.Gladiator;
 import com.example.learning_gamedev.entities.MapObject;
 import com.example.learning_gamedev.entities.Player;
@@ -38,7 +40,18 @@ public class MapManager {
         this.redPaint.setStrokeWidth(3);
         this.updateCollisionManager();
         this.initDrawablesArray();
+//        this.setEnemiesPlayer();
     }
+
+//    private void setEnemiesPlayer() {
+//        for (GameCharacter gameCharacter : this.currentMap.getCharactersArrayList()){
+//            if (gameCharacter instanceof Enemy enemy){
+//                enemy.setPlayer(this.player);
+//                System.out.println("setting enemy");
+//            }
+//        }
+//    }
+
     public void setCameraValues(float cameraX, float cameraY){
         this.cameraX = cameraX;
         this.cameraY = cameraY;

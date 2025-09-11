@@ -1,0 +1,5 @@
+package com.example.learning_gamedev.UI;
+
+public enum HeartLevels {
+    HEART_LEVEL_ONE, HEART_LEVEL_TWO, HEART_LEVEL_THREE, HEART_LEVEL_FOUR;
+}
