@@ -77,7 +77,8 @@ public class CollisionManager {
                     c.getHitbox().right,
                     c.getHitbox().bottom
             ))
-                c.setHealth(c.getHealth()-player.getDamage());
+                c.gotAttacked(player.getDamage());
+//                c.setHealth(c.getHealth()-player.getDamage());
 //                c.setActive(false);
 
 //        this.attackChecked = true;
@@ -90,7 +91,8 @@ public class CollisionManager {
                 playerHitbox.right,
                 playerHitbox.bottom
         ))
-            player.setHealth(player.getHealth()-source.getDamage());
+            player.gotAttacked(source.getDamage());
+//            player.setHealth(player.getHealth()-source.getDamage());
     }
     public static void setPlayer(Player p){
         player = p;

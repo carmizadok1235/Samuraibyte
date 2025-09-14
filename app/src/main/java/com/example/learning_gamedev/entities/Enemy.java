@@ -27,7 +27,7 @@ public abstract class Enemy extends GameCharacter{
 //    private boolean retreat;
 //    private PointF retreatPoint;
 //    private boolean startedRetreatTimer;
-    private long lastTime;
+//    private long lastTime;
 
     public Enemy(PointF pos, GameCharacters character){
         super(pos, character);
@@ -43,7 +43,7 @@ public abstract class Enemy extends GameCharacter{
 //        this.retreat = false;
 //        this.startedRetreatTimer = false;
 //        this.retreatPoint = new PointF();
-        this.lastTime = -1;
+        this.lastTimeRetreat = -1;
 //        this.health = 8;
         this.didAttack = false;
     }
@@ -57,6 +57,8 @@ public abstract class Enemy extends GameCharacter{
 
     @Override
     public void update(double delta) {
+        if (this.attacked && this.lastTimeAttacked != -1 && System.currentTimeMillis() - this.lastTimeAttacked >= 100)
+            this.attacked = false;
         if (this.health == 0)
             this.setActive(false);
 //        PointF a = new PointF(this.hitbox.centerX(), this.hitbox.centerY());
@@ -113,13 +115,13 @@ public abstract class Enemy extends GameCharacter{
     }
 
     private void retreatTimer() {
-        if (this.lastTime == -1)
-            this.lastTime = System.currentTimeMillis();
+        if (this.lastTimeRetreat == -1)
+            this.lastTimeRetreat = System.currentTimeMillis();
 
         long currTime = System.currentTimeMillis();
-        if (currTime - this.lastTime >= 500){
+        if (currTime - this.lastTimeRetreat >= 500){
             this.state = EnemyState.IDLE;
-            this.lastTime = -1;
+            this.lastTimeRetreat = -1;
         }
     }
 

@@ -74,9 +74,11 @@ public class PlayingState extends BaseState implements GameStateInterface {
 //        System.out.println(this.player.getHitbox());
         if (this.playerMove){
             this.updatePlayerMove(delta);
-            this.player.update(delta);
+//            this.player.update(delta);
         }
-        this.player.updateHeartLevel();
+//        this.updatePlayerMove(delta);
+        this.player.update(delta);
+//        this.player.updateHeartLevel();
         this.mapManager.setCameraValues(this.cameraX, this.cameraY);
 //        this.buildingManager.setCameraValues(this.cameraX, this.cameraY);
 //        System.out.println("cameraX:" + this.cameraX + "cameraY: " + this.cameraY);
@@ -327,6 +329,7 @@ public class PlayingState extends BaseState implements GameStateInterface {
 //    }
     public void setPlayerMove(boolean playerMove, PointF lastTouchDiff){
         this.playerMove = playerMove;
+        this.player.setPlayerMove(playerMove);
         if (this.playerMove)
             this.lastTouch = lastTouchDiff;
         else

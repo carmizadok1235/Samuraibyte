@@ -18,13 +18,15 @@ public abstract class GameCharacter extends Entity{
     protected float health;
     protected float damage;
     protected boolean attacking;
+    protected boolean attacked;
     protected int aniTick, aniIndex;
     protected int faceDir;
     protected final GameCharacters character;
     protected GameImages shadow;
     protected int base_speed;
     private Paint redPaint;
-    private long lastTime = System.currentTimeMillis();
+    protected long lastTimeRetreat = System.currentTimeMillis();
+    protected long lastTimeAttacked;
     private int animationsPerSecond = 0;
 
     public GameCharacter(PointF pos, GameCharacters character){
@@ -42,17 +44,20 @@ public abstract class GameCharacter extends Entity{
         this.redPaint.setColor(Color.RED);
         this.redPaint.setStyle(Paint.Style.STROKE);
         this.redPaint.setStrokeWidth(1);
+        this.attacked = false;
+        this.lastTimeAttacked = -1;
     }
 
     protected void updateAnimation(){
-        long nowTime = System.currentTimeMillis();
-        if (nowTime - lastTime >= 1000){
+//        this.attacked = false;
+//        long nowTime = System.currentTimeMillis();
+//        if (nowTime - lastTime >= 1000){
 //            System.out.println("animations per sec: " + this.animationsPerSecond);
-            lastTime = nowTime;
-            this.animationsPerSecond = 0;
-        }
+//            lastTime = nowTime;
+//            this.animationsPerSecond = 0;
+//        }
         this.aniTick++;
-        this.animationsPerSecond+=1;
+//        this.animationsPerSecond+=1;
 
         if (this.aniTick >= GameConstants.Animation.SPEED){
             this.aniTick = 0;
@@ -117,7 +122,7 @@ public abstract class GameCharacter extends Entity{
         );
 
         c.drawBitmap(
-                this.character.getSprite(this.getAniType(),this.faceDir),
+                this.character.getSprite(this.getAniType(),this.faceDir, this.attacked),
                 this.hitbox.left - cameraX - GameConstants.SpriteSizes.X_DRAW_OFFSET,
                 this.hitbox.top - cameraY - GameConstants.SpriteSizes.Y_DRAW_OFFSET,
                 null
@@ -131,6 +136,12 @@ public abstract class GameCharacter extends Entity{
 //        c.drawRect(this.hitbox, this.redPaint);
         if (this.attacking && this.weapon != null)
             this.weapon.draw(c, cameraX, cameraY);
+    }
+    public void gotAttacked(float damage){
+//        System.out.println("got attacked");
+        this.lastTimeAttacked = System.currentTimeMillis();
+        this.health -= damage;
+        this.attacked = true;
     }
 
     public int getAniIndex() {
