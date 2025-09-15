@@ -16,10 +16,12 @@ public class GameMap {
     private ArrayList<MapObject> mapObjectArrayList;
     private ArrayList<GameCharacter> charactersArrayList;
     private Tiles tileType;
+    private Levels level;
 
-    public GameMap(int[][] spriteIndexes, Tiles tileType){
+    public GameMap(int[][] spriteIndexes, Tiles tileType, Levels level){
         this.spriteIndexes = spriteIndexes;
         this.tileType = tileType;
+        this.level = level;
         this.mapObjectArrayList = new ArrayList<>();
         this.charactersArrayList = new ArrayList<>();
         this.initMap();
@@ -36,13 +38,13 @@ public class GameMap {
     }
 
     private void initCharacters() {
-        for (int i = 0; i < 9; i++) {
-            this.addGladiator(i*500, 2000);
+        for (int i = 0; i < this.level.getNumberOfEnemies(); i++) {
+            this.charactersArrayList.add(this.level.getEnemies()[i]);
         }
     }
-    public void addGladiator(float x, float y){
-        this.charactersArrayList.add(new BlackSorcerer(new PointF(x, y)));
-    }
+//    public void addGladiator(float x, float y){
+//        this.charactersArrayList.add(new BlackSorcerer(new PointF(x, y)));
+//    }
 
 
     private void initTrees(){
@@ -65,6 +67,11 @@ public class GameMap {
         }
 
         return drawables;
+    }
+    public void setLevel(LevelNumbers levelNumber){
+        this.level = Levels.getLevelByNumber(levelNumber);
+        if (this.level != null)
+            this.initCharacters();
     }
     private int getDrawablesLength(){
         return this.mapObjectArrayList.size() + this.charactersArrayList.size() + 1; // "+1" for the player
@@ -92,5 +99,8 @@ public class GameMap {
     }
     public ArrayList<GameCharacter> getCharactersArrayList(){
         return this.charactersArrayList;
+    }
+    public Levels getLevel(){
+        return this.level;
     }
 }
