@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.example.learning_gamedev.GameConstants;
+import com.example.learning_gamedev.entities.Enemy;
 import com.example.learning_gamedev.entities.Entity;
 import com.example.learning_gamedev.entities.BlackSorcerer;
 import com.example.learning_gamedev.entities.MapObject;
@@ -84,7 +85,8 @@ public class MapManager {
 
     private void initMap() {
         int[][] spriteIds = GameConstants.Map.MAP_2;
-        this.currentMap = new GameMap(spriteIds, Tiles.OUTSIDE);
+        this.currentMap = new GameMap(spriteIds, Tiles.OUTSIDE, Levels.LEVEL1);
+//        this.currentMap = GameMap.;
 
 //        this.initTrees();
 //        this.initStones();
@@ -106,6 +108,12 @@ public class MapManager {
 //    }
 
     public void update(){
+        if (this.levelIsFinished()){
+            System.out.println("level is finished");
+            this.drawablesInitialized = false;
+            if (this.currentMap.getLevel().getLevelNumber().ordinal()+1 < LevelNumbers.values().length)
+                this.currentMap.setLevel(LevelNumbers.values()[this.currentMap.getLevel().getLevelNumber().ordinal()+1]);
+        }
 //        System.out.println(this.player.getHitbox());
         CollisionManager.setPosCamera(this.cameraX, this.cameraY);
         if (!this.drawablesInitialized){
@@ -113,6 +121,13 @@ public class MapManager {
         }
 //        Arrays.sort(this.drawablesArray);
         this.sortDrawablesArray();
+    }
+    private boolean levelIsFinished(){
+        for (Enemy enemy : this.currentMap.getLevel().getEnemies()){
+            if (enemy.isActive())
+                return false;
+        }
+        return true;
     }
     private void sortDrawablesArray() {
 //        System.out.println("in sort method\n");
