@@ -3,6 +3,9 @@ package com.example.learning_gamedev.entities;
 import static com.example.learning_gamedev.utils.Utils.getRandomBoolean;
 import static com.example.learning_gamedev.utils.Utils.isInsideCircle;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
@@ -23,6 +26,10 @@ public abstract class Enemy extends GameCharacter{
     protected boolean alignedWithPlayer;
     protected boolean horizontalSide;
     private boolean didAttack;
+    protected RectF lifeBarFilled;
+    protected RectF lifeBarStroke;
+    private Paint greenPaintFilled;
+    private Paint greenPaintStroke;
 //    private long lastTimeCheck = System.currentTimeMillis();
 //    private boolean retreat;
 //    private PointF retreatPoint;
@@ -46,6 +53,15 @@ public abstract class Enemy extends GameCharacter{
         this.lastTimeRetreat = -1;
 //        this.health = 8;
         this.didAttack = false;
+
+        this.greenPaintFilled = new Paint();
+        this.greenPaintFilled.setColor(Color.GREEN);
+        this.greenPaintFilled.setStyle(Paint.Style.FILL);
+
+        this.greenPaintStroke = new Paint();
+        this.greenPaintStroke.setColor(Color.GREEN);
+        this.greenPaintStroke.setStyle(Paint.Style.STROKE);
+        this.greenPaintFilled.setStrokeWidth(15);
     }
 
     public void setPlayerHitbox(RectF hitbox){
@@ -217,6 +233,52 @@ public abstract class Enemy extends GameCharacter{
                 this.attacking = true;
             }
         }
+    }
+    public void updateXCharacterValues(float deltaSpeedX){
+        this.hitbox.left+=deltaSpeedX;
+        this.hitbox.right+=deltaSpeedX;
+        this.lifeBarFilled.left+=deltaSpeedX;
+        this.lifeBarFilled.right+=deltaSpeedX;
+        this.lifeBarStroke.left+=deltaSpeedX;
+        this.lifeBarStroke.right+=deltaSpeedX;
+    }
+    public void updateYCharacterValues(float deltaSpeedY){
+        this.hitbox.top+=deltaSpeedY;
+        this.hitbox.bottom+=deltaSpeedY;
+        this.lifeBarFilled.top+=deltaSpeedY;
+        this.lifeBarFilled.bottom+=deltaSpeedY;
+        this.lifeBarStroke.top+=deltaSpeedY;
+        this.lifeBarStroke.bottom+=deltaSpeedY;
+    }
+    @Override
+    public void draw(Canvas c, float cameraX, float cameraY){
+        if (!this.isActive())
+            return;
+//        System.out.println(this.lifeBar);
+//        c.drawRect(this.lifeBar, this.redPaint);
+        c.drawRect(
+                this.lifeBarStroke.left - cameraX,
+                this.lifeBarStroke.top - cameraY,
+                this.lifeBarStroke.right - cameraX,
+                this.lifeBarStroke.bottom - cameraY,
+                this.greenPaintStroke
+        );
+        c.drawRect(
+                this.lifeBarFilled.left - cameraX,
+                this.lifeBarFilled.top - cameraY,
+                this.lifeBarFilled.right - cameraX,
+                this.lifeBarFilled.bottom - cameraY,
+                this.greenPaintFilled
+        );
+        super.draw(c, cameraX, cameraY);
+    }
+    @Override
+    public void gotAttacked(float damage){
+        super.gotAttacked(damage);
+        System.out.println("health: " + this.health);
+        System.out.println("percentage: " +(damage/(this.health))*100);
+        System.out.println("lifeBar amount: " + (this.lifeBarFilled.right-this.lifeBarFilled.left));
+        this.lifeBarFilled.right-=(damage/(this.health))*(this.lifeBarFilled.right-this.lifeBarFilled.left);
     }
 
     public boolean isAlignedWithPlayer() {

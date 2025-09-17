@@ -112,17 +112,19 @@ public class PlayingState extends BaseState implements GameStateInterface {
         if (this.mapManager.canMoveHereX(hitboxCopyX)){
             if (character instanceof Player)
                 this.cameraX+=deltaSpeed.x;
-            else{
-                character.getHitbox().left+=deltaSpeed.x;
-                character.getHitbox().right+=deltaSpeed.x;
+            else if (character instanceof Enemy e){
+//                character.getHitbox().left+=deltaSpeed.x;
+//                character.getHitbox().right+=deltaSpeed.x;
+                e.updateXCharacterValues(deltaSpeed.x);
             }
         }
         if (this.mapManager.canMoveHereY(hitboxCopyY)){
             if (character instanceof Player)
                 this.cameraY+=deltaSpeed.y;
-            else{
-                character.getHitbox().top+=deltaSpeed.y;
-                character.getHitbox().bottom+=deltaSpeed.y;
+            else if (character instanceof Enemy e){
+//                character.getHitbox().top+=deltaSpeed.y;
+//                character.getHitbox().bottom+=deltaSpeed.y;
+                e.updateYCharacterValues(deltaSpeed.y);
             }
         }
     }

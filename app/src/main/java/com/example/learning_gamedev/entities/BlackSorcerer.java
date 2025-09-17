@@ -1,6 +1,11 @@
 package com.example.learning_gamedev.entities;
 
+import static com.example.learning_gamedev.GameConstants.SpriteSizes.HITBOX_SIZE;
+import static com.example.learning_gamedev.GameConstants.SpriteSizes.X_DRAW_OFFSET;
+import static com.example.learning_gamedev.GameConstants.SpriteSizes.Y_DRAW_OFFSET;
+
 import android.graphics.PointF;
+import android.graphics.RectF;
 
 import java.util.Random;
 
@@ -18,8 +23,11 @@ public class BlackSorcerer extends Enemy{
 //        this.state = EnemyState.IDLE;
 //        this.sightRadius = 600;
         this.weapon = new Weapon(new PointF(0,0),0,0, Weapons.LANCE, this);
-        this.health = 8;
-        this.damage = 0.2f;
+        this.health = 800;
+        this.damage = 20;
+        RectF lifeBarRect = new RectF(pos.x-X_DRAW_OFFSET-10, pos.y-Y_DRAW_OFFSET-15, pos.x+HITBOX_SIZE+X_DRAW_OFFSET+10, pos.y-Y_DRAW_OFFSET);
+        this.lifeBarFilled = new RectF(lifeBarRect);
+        this.lifeBarStroke = new RectF(lifeBarRect);
     }
 
 //    public void setPlayerPos(PointF pos){

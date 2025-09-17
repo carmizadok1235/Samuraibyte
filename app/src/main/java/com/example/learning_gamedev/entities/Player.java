@@ -30,8 +30,8 @@ public class Player extends GameCharacter{
         this.redPaint.setStrokeWidth(1);
 
         this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
-        this.health = 4;
-        this.damage = 1;
+        this.health = 400;
+        this.damage = 100;
     }
     public void update(double delta){
         if (this.attacked && this.lastTimeAttacked != -1 && System.currentTimeMillis() - this.lastTimeAttacked >= 100)
@@ -55,12 +55,13 @@ public class Player extends GameCharacter{
 //            this.heartLevel = HeartLevels.HEART_LEVEL_THREE;
 //        else if (this.health == 4)
 //            this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
+//        System.out.println(this.health);
         switch (Math.round(this.health)){
             case 0 -> this.heartLevel = HeartLevels.HEART_LEVEL_ZERO;
-            case 1 -> this.heartLevel = HeartLevels.HEART_LEVEL_ONE;
-            case 2 -> this.heartLevel = HeartLevels.HEART_LEVEL_TWO;
-            case 3 -> this.heartLevel = HeartLevels.HEART_LEVEL_THREE;
-            case 4 -> this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
+            case 100 -> this.heartLevel = HeartLevels.HEART_LEVEL_ONE;
+            case 200 -> this.heartLevel = HeartLevels.HEART_LEVEL_TWO;
+            case 300 -> this.heartLevel = HeartLevels.HEART_LEVEL_THREE;
+            case 400 -> this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
         }
     }
     public HeartLevels getHeartLevel(){
