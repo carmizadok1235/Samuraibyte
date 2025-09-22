@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Learning_GameDev"
+rootProject.name = "SamuraiByte"
 include(":app")
  

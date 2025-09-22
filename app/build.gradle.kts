@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.learning_gamedev"
+    namespace = "com.example.SamuraiByte"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.learning_gamedev"
+        applicationId = "com.example.SamuraiByte"
         minSdk = 34
         targetSdk = 35
         versionCode = 1
