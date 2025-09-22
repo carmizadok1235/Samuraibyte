@@ -52,12 +52,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         if (view.getId() == this.loginButtonLoginPage.getId()){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            String name = this.nameInputLogin.getText().toString().strip();
+            String password = this.passwordInputLogin.getText().toString().strip();
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+            if (this.checkInput(name, password) && this.dbHandler.checkInDB(name, password)){
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            }
         }
         else if (view.getId() == this.registerButtonLoginPage.getId()){
             this.createRegisterDialog();
         }
+    }
+    private boolean checkInput(String name, String password){
+//        String name = this.nameInputLogin.getText().toString().strip();
+//        String password = this.passwordInputLogin.getText().toString().strip();
+        return !name.isEmpty() && !password.isEmpty();
+    }
+    private boolean checkInput(String name, String email, String password){
+        return !name.isEmpty() && !email.isEmpty() &&!password.isEmpty();
     }
     private void createRegisterDialog(){
         Dialog dialog = new Dialog(this);
@@ -74,12 +88,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         this.registerButtonPopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                dbHandler.addNewCourse(
-                        nameInputRegister.getText().toString(),
-                        emailInputRegister.getText().toString(),
-                        passwordInputRegister.getText().toString()
-                );
-                System.out.println("added");
+                String name = nameInputRegister.getText().toString().strip();
+                String email = emailInputRegister.getText().toString().strip();
+                String password = passwordInputRegister.getText().toString().strip();
+                if (checkInput(name, email, password))
+                    dbHandler.addNewCourse(
+                            name,
+                            email,
+                            password
+                    );
             }
         });
 
