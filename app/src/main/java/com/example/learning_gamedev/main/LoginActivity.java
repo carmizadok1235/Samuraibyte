@@ -64,6 +64,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog.setContentView(R.layout.popup_register);
         dialog.setCancelable(true);
 
+//        DatabaseHandler dbHandlerCopy = this.dbHandler;
+
         this.nameInputRegister = (EditText) dialog.findViewById(R.id.name_inputRegister);
 //        System.out.println(this.nameInputRegister);
         this.emailInputRegister = (EditText) dialog.findViewById(R.id.email_inputRegister);
@@ -72,7 +74,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         this.registerButtonPopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                System.out.println("Registered");
+                dbHandler.addNewCourse(
+                        nameInputRegister.getText().toString(),
+                        emailInputRegister.getText().toString(),
+                        passwordInputRegister.getText().toString()
+                );
+                System.out.println("added");
             }
         });
 
