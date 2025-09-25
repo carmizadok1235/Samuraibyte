@@ -53,11 +53,4 @@
         android:text="Register"
         android:textColor="#FFFFFF"
         android:textColorLink="@color/design_default_color_error" />
-
-    <TextView
-        android:id="@+id/tvMessage"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:padding="8dp"
-        android:background="@android:drawable/edit_text" />
 </LinearLayout>

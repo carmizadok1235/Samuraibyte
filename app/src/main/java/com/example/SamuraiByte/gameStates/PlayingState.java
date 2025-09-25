@@ -47,7 +47,7 @@ public class PlayingState extends BaseState implements GameStateInterface {
 //        this.cameraY = 0;
         this.player = new Player();
         this.playerMove = false;
-        this.mapManager = new MapManager(this.player);
+        this.mapManager = new MapManager(this, this.player);
 //        this.drawablesArray = this.mapManager.getCurrentMap().getDrawableArray();
 //        this.buildingManager = new BuildingManager();
         this.playingStateUI = new PlayingStateUI(this);
@@ -353,5 +353,10 @@ public class PlayingState extends BaseState implements GameStateInterface {
         this.player.setAttacking(attacking);
         if (!attacking)
             this.attackChecked = false;
+    }
+    public void resetGame(){
+        this.mapManager.reset();
+        this.player.setAttacking(false);
+        this.attackChecked = false;
     }
 }

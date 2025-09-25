@@ -25,7 +25,7 @@ public enum Levels {
         this.initEnemies();
     }
 
-    private void initEnemies() {
+    public void initEnemies() {
         for (int i = 0; i < this.numberOfEnemies; i++){
 //            System.out.println("adding enemies");
             switch (this.enemyName){

@@ -25,7 +25,7 @@ public class GameMap {
         this.charactersArrayList = new ArrayList<>();
         this.initMap();
     }
-    private void initMap() {
+    public void initMap() {
         this.initTrees();
 //        this.initStones();
         this.mapObjectArrayList.add(new MapObject(new PointF(1200,900), MapObjects.HOUSE2));
@@ -69,8 +69,10 @@ public class GameMap {
     }
     public void setLevel(LevelNumbers levelNumber){
         this.level = Levels.getLevelByNumber(levelNumber);
-        if (this.level != null)
+        if (this.level != null){
+//            System.out.println("hereerereee");
             this.initCharacters();
+        }
     }
     private int getDrawablesLength(){
         return this.mapObjectArrayList.size() + this.charactersArrayList.size() + 1; // "+1" for the player

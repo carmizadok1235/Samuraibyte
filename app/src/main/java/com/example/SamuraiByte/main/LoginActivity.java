@@ -1,11 +1,13 @@
 package com.example.SamuraiByte.main;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,9 +59,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            Intent intent = new Intent(this, MainActivity.class);
 //            startActivity(intent);
             if (this.checkInput(name, password) && this.dbHandler.checkInDB(name, password)){
+                Toast.makeText(this, "Login successfull", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
+            else
+                Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
         }
         else if (view.getId() == this.registerButtonLoginPage.getId()){
             this.createRegisterDialog();
@@ -77,6 +82,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_register);
         dialog.setCancelable(true);
+        Context context = this;
 
 //        DatabaseHandler dbHandlerCopy = this.dbHandler;
 
@@ -91,12 +97,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String name = nameInputRegister.getText().toString().strip();
                 String email = emailInputRegister.getText().toString().strip();
                 String password = passwordInputRegister.getText().toString().strip();
-                if (checkInput(name, email, password))
+                if (checkInput(name, email, password)){
                     dbHandler.addNewCourse(
                             name,
                             email,
                             password
                     );
+                    Toast.makeText(context, "Registeration successfull", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 

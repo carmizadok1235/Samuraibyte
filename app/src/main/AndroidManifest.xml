@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Learning_GameDev"
         tools:targetApi="31">
         <activity
+            android:name=".main.EndingScreenActivity"
+            android:exported="false" />
+        <activity
             android:name=".main.MainActivity"
             android:exported="false" />
         <activity

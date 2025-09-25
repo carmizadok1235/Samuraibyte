@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
+import com.example.SamuraiByte.gameStates.EndState;
 import com.example.SamuraiByte.gameStates.GameStates;
 import com.example.SamuraiByte.gameStates.MenuState;
 import com.example.SamuraiByte.gameStates.PlayingState;
@@ -15,6 +16,7 @@ public class Game {
     private GameLoop gameLoop;
     private MenuState menuState;
     private PlayingState playingState;
+    private EndState endState;
     private GameStates currentGameState;
     public Game(SurfaceHolder holder){
         this.holder = holder;
@@ -25,6 +27,7 @@ public class Game {
     private void initGameStates(){
         this.menuState = new MenuState(this);
         this.playingState = new PlayingState(this);
+        this.endState = new EndState(this);
     }
     public void startGameLoop(){
         this.gameLoop.startLoop();
@@ -41,6 +44,9 @@ public class Game {
             case PLAYING:
                 this.playingState.render(c);
                 break;
+            case END:
+                this.endState.render(c);
+                break;
         }
 
         this.holder.unlockCanvasAndPost(c);
@@ -53,6 +59,9 @@ public class Game {
             case PLAYING:
                 this.playingState.update(delta);
                 break;
+            case END:
+                this.endState.update(delta);
+                break;
         }
     }
 
@@ -64,6 +73,9 @@ public class Game {
             case PLAYING:
                 this.playingState.touchEvents(event);
                 return true;
+            case END:
+                this.endState.touchEvents(event);
+                break;
         }
 
         return false;
@@ -75,5 +87,9 @@ public class Game {
 
     public void setCurrentGameState(GameStates currentGameState) {
         this.currentGameState = currentGameState;
+    }
+    public void endGame(){
+        this.currentGameState = GameStates.END;
+        this.playingState.resetGame();
     }
 }

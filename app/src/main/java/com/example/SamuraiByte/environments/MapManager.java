@@ -11,13 +11,14 @@ import com.example.SamuraiByte.GameConstants;
 import com.example.SamuraiByte.entities.Enemy;
 import com.example.SamuraiByte.entities.Entity;
 import com.example.SamuraiByte.entities.BlackSorcerer;
-import com.example.SamuraiByte.entities.MapObject;
 import com.example.SamuraiByte.entities.Player;
+import com.example.SamuraiByte.gameStates.GameStates;
+import com.example.SamuraiByte.gameStates.PlayingState;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MapManager {
+    private PlayingState playingState;
     private GameMap currentMap;
 //    private final CollisionManager collisionManager;
     private float cameraX, cameraY;
@@ -26,7 +27,8 @@ public class MapManager {
     private boolean drawablesInitialized;
     private Paint redPaint;
 
-    public MapManager(Player player){
+    public MapManager(PlayingState playingState, Player player){
+        this.playingState = playingState;
         this.initMap();
         this.player = player;
 //        this.collisionManager = new CollisionManager();
@@ -108,6 +110,8 @@ public class MapManager {
 //    }
 
     public void update(){
+        if (this.currentMap.getLevel() == Levels.NOLEVEL)
+            this.playingState.getGame().endGame();
         if (this.levelIsFinished()){
             System.out.println("level is finished");
             this.drawablesInitialized = false;
@@ -147,15 +151,15 @@ public class MapManager {
             }
         }
     }
-    public void drawObjects(Canvas c){
-        ArrayList<MapObject> objects = this.currentMap.getMapObjectArrayList();
-        if (objects == null)
-            return;
-
-        for (MapObject mapObject : objects){
-            mapObject.draw(c, this.cameraX, this.cameraY);
-        }
-    }
+//    public void drawObjects(Canvas c){
+//        ArrayList<MapObject> objects = this.currentMap.getMapObjectArrayList();
+//        if (objects == null)
+//            return;
+//
+//        for (MapObject mapObject : objects){
+//            mapObject.draw(c, this.cameraX, this.cameraY);
+//        }
+//    }
     private void drawDrawablesArray(Canvas c) {
         for (Entity entity : this.drawablesArray) {
 //            System.out.println(e.getClass());
@@ -178,5 +182,13 @@ public class MapManager {
         this.drawTiles(c);
         this.drawDrawablesArray(c);
 //        this.drawObjects(c);
+    }
+    public void reset(){
+        for (Levels level : Levels.values()){
+            level.initEnemies();
+        }
+        this.initMap();
+        this.initDrawablesArray();
+        this.updateCollisionManager();
     }
 }
