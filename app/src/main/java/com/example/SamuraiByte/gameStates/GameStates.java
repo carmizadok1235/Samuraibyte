@@ -1,5 +1,5 @@
 package com.example.SamuraiByte.gameStates;
 
 public enum GameStates {
-    MENU, PLAYING, END
+    MENU, PLAYING, END, DEAD
 }

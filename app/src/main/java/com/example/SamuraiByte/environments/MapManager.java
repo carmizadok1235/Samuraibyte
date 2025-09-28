@@ -111,7 +111,7 @@ public class MapManager {
 
     public void update(){
         if (this.currentMap.getLevel() == Levels.NOLEVEL)
-            this.playingState.getGame().endGame();
+            this.playingState.getGame().setCurrentGameState(GameStates.END);
         if (this.levelIsFinished()){
             System.out.println("level is finished");
             this.drawablesInitialized = false;

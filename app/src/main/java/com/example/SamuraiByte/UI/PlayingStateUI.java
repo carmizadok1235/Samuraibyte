@@ -220,4 +220,7 @@ public class PlayingStateUI {
     public PointF getJoystickCenterPos(){
         return this.joystickCenterPos;
     }
+    public void reset(){
+        this.attackButton.setPushed(false);
+    }
 }

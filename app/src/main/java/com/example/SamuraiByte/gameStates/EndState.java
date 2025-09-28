@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 
+import com.example.SamuraiByte.GameConstants;
 import com.example.SamuraiByte.interfaces.GameStateInterface;
 import com.example.SamuraiByte.main.Game;
 import com.example.SamuraiByte.main.LeaderboardHandler;
@@ -25,7 +26,8 @@ public class EndState extends BaseState implements GameStateInterface {
 
     @Override
     public void render(Canvas c) {
-        c.drawColor(Color.BLACK);
+//        c.drawColor(Color.BLACK);
+        c.drawBitmap(GameConstants.background, 0, 0, null);
     }
 
     @Override

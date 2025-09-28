@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.view.MotionEvent;
 
+import com.example.SamuraiByte.GameConstants;
 import com.example.SamuraiByte.UI.ButtonImages;
 import com.example.SamuraiByte.UI.CustomButton;
 import com.example.SamuraiByte.UI.GameImages;
@@ -36,6 +37,7 @@ public class MenuState extends BaseState implements GameStateInterface {
     @Override
     public void render(Canvas c) {
 //        c.drawText("MENU", 1000, 300, this.paint);
+        c.drawBitmap(GameConstants.background, 0, 0, null);
 
         c.drawBitmap(
                 GameImages.MENU_BACKGROUD.getImage(),

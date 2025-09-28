@@ -6,8 +6,10 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 import com.example.SamuraiByte.EnemyState;
+import com.example.SamuraiByte.UI.HeartLevels;
 import com.example.SamuraiByte.UI.PlayingStateUI;
 import com.example.SamuraiByte.entities.Enemy;
 import com.example.SamuraiByte.entities.Weapons;
@@ -19,6 +21,7 @@ import com.example.SamuraiByte.entities.BlackSorcerer;
 import com.example.SamuraiByte.entities.Player;
 import com.example.SamuraiByte.environments.MapManager;
 import com.example.SamuraiByte.interfaces.GameStateInterface;
+import com.example.SamuraiByte.main.MainActivity;
 
 import static com.example.SamuraiByte.utils.Utils.getHitboxCopyWithAddition;
 
@@ -43,8 +46,9 @@ public class PlayingState extends BaseState implements GameStateInterface {
     public PlayingState(Game game){
         super(game);
 
-//        this.cameraX = 0;
-//        this.cameraY = 0;
+//        this.cameraX = MainActivity.GAME_WIDTH/2f;
+//        this.cameraY = MainActivity.GAME_HEIGHT/2f;
+        this.initCameraValues();
         this.player = new Player();
         this.playerMove = false;
         this.mapManager = new MapManager(this, this.player);
@@ -66,8 +70,16 @@ public class PlayingState extends BaseState implements GameStateInterface {
 //        this.initDrawables();
 //        this.buildDrawablesArray();
     }
+    private void initCameraValues(){
+        this.cameraX = MainActivity.GAME_WIDTH/2f;
+        this.cameraY = MainActivity.GAME_HEIGHT/2f;
+    }
     @Override
     public void update(double delta) {
+        if (this.player.getHeartLevel() == HeartLevels.HEART_LEVEL_ZERO){
+//            Toast.makeText(MainActivity.getContext(), "You Died!", Toast.LENGTH_LONG).show();
+            this.game.setCurrentGameState(GameStates.DEAD);
+        }
 //        if (!this.drawablesInitialized){
 //            this.initDrawables();
 //        }
@@ -356,7 +368,10 @@ public class PlayingState extends BaseState implements GameStateInterface {
     }
     public void resetGame(){
         this.mapManager.reset();
+        this.playingStateUI.reset();
         this.player.setAttacking(false);
+        this.player.setHealth(400);
         this.attackChecked = false;
+        this.initCameraValues();
     }
 }
