@@ -32,6 +32,8 @@ public class EndState extends BaseState implements GameStateInterface {
 
     @Override
     public void touchEvents(MotionEvent event) {
-        this.game.setCurrentGameState(GameStates.MENU);
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN -> this.game.setCurrentGameState(GameStates.MENU);
+        }
     }
 }

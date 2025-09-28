@@ -14,6 +14,7 @@ public class DeadState extends BaseState implements GameStateInterface {
         super(game);
         this.paint = new Paint();
         this.paint.setColor(Color.WHITE);
+        this.paint.setTextSize(50);
     }
 
     @Override
