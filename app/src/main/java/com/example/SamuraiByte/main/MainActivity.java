@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
     private static Context gameContext;
     public static int GAME_WIDTH, GAME_HEIGHT;
+    private static String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +37,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         EdgeToEdge.enable(this);
+        username = getIntent().getStringExtra("USERNAME");
+        System.out.println(username);
         setContentView(new GamePanel(this));
     }
     public static Context getContext(){
         return gameContext;
+    }
+    public static String getUsername(){
+        return username;
     }
 }
