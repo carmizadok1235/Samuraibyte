@@ -108,6 +108,8 @@ public class Game {
             this.lastElapsedTime = this.stopWatch.stop();
             this.playingState.resetGame();
             System.out.println("time: " + this.lastElapsedTime);
+            if (currentGameState == GameStates.DEAD || currentGameState == GameStates.END)
+                this.endState.onNewScore(this.lastElapsedTime);
         }
     }
     public void endGame(){

@@ -19,7 +19,7 @@ public class LeaderboardHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME + " ("
                 + NAME_COL + " TEXT,"
-                + SCORE_COL + " TEXT)";
+                + SCORE_COL + " REAL)";
 
         db.execSQL(query);
     }
@@ -28,7 +28,7 @@ public class LeaderboardHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
-    public void addNewCourse(String name, String score){
+    public void addNewCourse(String name, double score){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -38,8 +38,8 @@ public class LeaderboardHandler extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
-    public void updateCourse(String name, String score){
-        SQLiteDatabase db =this.getWritableDatabase();
+    public void updateCourse(String name, double score){
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(SCORE_COL, score);
@@ -55,5 +55,18 @@ public class LeaderboardHandler extends SQLiteOpenHelper {
         cursor.close();
 
         return count >= 1;
+    }
+    public double readScores(String username){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + SCORE_COL + " FROM " + TABLE_NAME + " WHERE " + NAME_COL + "=?";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+
+        double score = -1;
+        if (cursor.getCount() > 0 && cursor.moveToFirst()){
+            score = cursor.getDouble(0);
+        }
+        cursor.close();
+
+        return score;
     }
 }
