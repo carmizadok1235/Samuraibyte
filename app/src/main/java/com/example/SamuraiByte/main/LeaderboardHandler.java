@@ -6,6 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.SamuraiByte.utils.NameAndScore;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class LeaderboardHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "LeaderboardDB";
     private static final int DB_VERSION = 1;
@@ -56,7 +61,7 @@ public class LeaderboardHandler extends SQLiteOpenHelper {
 
         return count >= 1;
     }
-    public double readScores(String username){
+    public double readScore(String username){
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT " + SCORE_COL + " FROM " + TABLE_NAME + " WHERE " + NAME_COL + "=?";
         Cursor cursor = db.rawQuery(query, new String[]{username});
@@ -68,5 +73,32 @@ public class LeaderboardHandler extends SQLiteOpenHelper {
         cursor.close();
 
         return score;
+    }
+    public NameAndScore[] getLeaderboardArray(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String queryNames = "SELECT " + NAME_COL + " FROM " + TABLE_NAME;
+        String queryScores = "SELECT " + SCORE_COL + " FROM " + TABLE_NAME;
+        Cursor cursorNames = db.rawQuery(queryNames, null);
+        Cursor cursorScores = db.rawQuery(queryScores, null);
+
+        NameAndScore[] result = new NameAndScore[cursorNames.getCount()];
+        cursorNames.moveToLast();
+        cursorScores.moveToLast();
+
+//        cursorNames.moveToPrevious();
+
+
+        int i = cursorNames.getCount()-1;
+        if (i == -1)
+            return null;
+        do {
+            String name = cursorNames.getString(0);
+            double score = cursorScores.getDouble(0);
+            result[i] = new NameAndScore(name, score);
+            i--;
+        }while (cursorNames.moveToPrevious() && cursorScores.moveToPrevious());
+
+        Arrays.sort(result);
+        return result;
     }
 }

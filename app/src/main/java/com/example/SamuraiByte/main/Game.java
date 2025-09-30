@@ -101,21 +101,23 @@ public class Game {
     }
 
     public void setCurrentGameState(GameStates currentGameState) {
-        this.currentGameState = currentGameState;
-        if (currentGameState == GameStates.PLAYING)
-            this.stopWatch.start();
-        else{
-            this.lastElapsedTime = this.stopWatch.stop();
-            this.playingState.resetGame();
+        if (this.currentGameState == GameStates.PLAYING && currentGameState == GameStates.END){
+            this.endGame();
             System.out.println("time: " + this.lastElapsedTime);
-            if (currentGameState == GameStates.DEAD || currentGameState == GameStates.END)
-                this.endState.onNewScore(this.lastElapsedTime);
+            this.endState.onNewScore(this.lastElapsedTime);
         }
+        else if (currentGameState == GameStates.PLAYING)
+            this.stopWatch.start();
+        else
+            this.endGame();
+        this.currentGameState = currentGameState;
+//        this.currentGameState = currentGameState;
     }
     public void endGame(){
-//        System.out.println("time: " + this.lastElapsedTime);
-//        this.stopWatch.stop();
-        this.setCurrentGameState(GameStates.END);
+        this.lastElapsedTime = this.stopWatch.stop();
+        this.playingState.resetGame();
+        System.out.println("time: " + this.lastElapsedTime);
+//        this.setCurrentGameState(GameStates.END);
 //        this.currentGameState = GameStates.END;
 //        this.playingState.resetGame();
     }
