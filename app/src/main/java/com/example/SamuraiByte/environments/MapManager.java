@@ -170,8 +170,8 @@ public class MapManager {
 
             }
             else if (entity instanceof BlackSorcerer g){
-                c.drawCircle(g.getHitbox().left+HITBOX_SIZE/2f-this.cameraX,g.getHitbox().top+HITBOX_SIZE/2f-this.cameraY,g.getSightRadius(), this.redPaint);
-                c.drawCircle(g.getHitbox().left+HITBOX_SIZE/2f-this.cameraX,g.getHitbox().top+HITBOX_SIZE/2f-this.cameraY,g.getAttackingRadius(), this.redPaint);
+//                c.drawCircle(g.getHitbox().left+HITBOX_SIZE/2f-this.cameraX,g.getHitbox().top+HITBOX_SIZE/2f-this.cameraY,g.getSightRadius(), this.redPaint);
+//                c.drawCircle(g.getHitbox().left+HITBOX_SIZE/2f-this.cameraX,g.getHitbox().top+HITBOX_SIZE/2f-this.cameraY,g.getAttackingRadius(), this.redPaint);
                 g.draw(c, this.cameraX, this.cameraY);
             }
             else if (entity.isActive())

@@ -9,6 +9,7 @@ import com.example.SamuraiByte.main.MainActivity;
 
 public enum ButtonImages implements BitmapMethods {
     START(R.drawable.button_start, 600, 140),
+    SCOREBOARD(R.drawable.scoreboard_button, 600, 140),
     MENU(R.drawable.playing_button_menu, 280, 140),
     ATTACK_BUTTON(R.drawable.attack_button_spritesheet, 300, 150);
 

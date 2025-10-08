@@ -58,14 +58,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String password = this.passwordInputLogin.getText().toString().strip();
 //            Intent intent = new Intent(this, MainActivity.class);
 //            startActivity(intent);
-            if (this.checkInput(name, password) && this.dbHandler.checkInDB(name, password)){
-                Toast.makeText(this, "Login successfull", Toast.LENGTH_LONG).show();
+            if (this.checkInput(name, password) && this.dbHandler.loginCheckInDB(name, password)){
+                Toast.makeText(this, "Login successfull", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("USERNAME", name);
                 startActivity(intent);
             }
             else
-                Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
         }
         else if (view.getId() == this.registerButtonLoginPage.getId()){
             this.createRegisterDialog();
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return !name.isEmpty() && !password.isEmpty();
     }
     private boolean checkInput(String name, String email, String password){
-        return !name.isEmpty() && !email.isEmpty() &&!password.isEmpty();
+        return !name.isEmpty() && !email.isEmpty() &&!password.isEmpty() && !this.dbHandler.registerCheckInDB(name, email);
     }
     private void createRegisterDialog(){
         Dialog dialog = new Dialog(this);
@@ -98,14 +98,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String name = nameInputRegister.getText().toString().strip();
                 String email = emailInputRegister.getText().toString().strip();
                 String password = passwordInputRegister.getText().toString().strip();
-                if (checkInput(name, email, password)){
-                    dbHandler.addNewCourse(
-                            name,
-                            email,
-                            password
-                    );
-                    Toast.makeText(context, "Registeration successfull", Toast.LENGTH_LONG).show();
+                if (name.length() <= 9){
+                    if (checkInput(name, email, password)){
+                        dbHandler.addNewCourse(
+                                name,
+                                email,
+                                password
+                        );
+                        Toast.makeText(context, "Registration successfull", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                    else
+                        Toast.makeText(context, "Registration Failed", Toast.LENGTH_SHORT).show();
                 }
+                else
+                    Toast.makeText(context, "Name is more than 9 characters!", Toast.LENGTH_SHORT).show();
 
             }
         });

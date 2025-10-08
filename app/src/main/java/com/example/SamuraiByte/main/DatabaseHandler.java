@@ -42,14 +42,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
-    public boolean checkInDB(String name, String password){
+    private int executeQuery(String query, String[] args){
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT " + NAME_COL + ", "+ PASSWORD_COL + " FROM " + TABLE_NAME + " WHERE " + NAME_COL + "=? AND " + PASSWORD_COL + "=?";
-        Cursor cursor = db.rawQuery(query, new String[]{name, password});
+        Cursor cursor = db.rawQuery(query, args);
 
         int count = cursor.getCount();
         cursor.close();
 
-        return count >= 1;
+        return count;
+    }
+    public boolean loginCheckInDB(String name, String password){
+//        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + NAME_COL + ", "+ PASSWORD_COL + " FROM " + TABLE_NAME + " WHERE " + NAME_COL + "=? AND " + PASSWORD_COL + "=?";
+//        Cursor cursor = db.rawQuery(query, new String[]{name, password});
+
+//        int count = cursor.getCount();
+//        cursor.close();
+
+        return this.executeQuery(query, new String[]{name, password}) >= 1;
+    }
+    public boolean registerCheckInDB(String name, String email){
+        String query = "SELECT " + NAME_COL + ", " + EMAIL_COL + " FROM " + TABLE_NAME + " WHERE " + NAME_COL + "=? OR " + EMAIL_COL + "=?";
+
+        return executeQuery(query, new String[]{name, email}) >= 1;
     }
 }

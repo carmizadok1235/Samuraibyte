@@ -2,7 +2,9 @@ package com.example.SamuraiByte.gameStates;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.view.MotionEvent;
 
 import com.example.SamuraiByte.GameConstants;
@@ -47,12 +49,52 @@ public class EndState extends BaseState implements GameStateInterface {
         c.drawBitmap(this.leaderboardBackground.getImage(), this.xLDB, this.yLDB, null);
 
         if (this.leaderboardValues != null){
-            for (int i = 1; i <= this.leaderboardValues.length; i++){
-                String name = this.leaderboardValues[i-1].getName();
+            float startY = this.yLDB+200;
+            float lineHeight = 60;
+
+            float nameColumnX = this.xLDB + 125;
+            float lineColumnX = this.xLDB + 150 + 300;
+            float scoreColumnX = this.xLDB + 150 + 900;
+
+            for (int i = 0; i < this.leaderboardValues.length; i++){
+                NameAndScore nameAndScore = this.leaderboardValues[i];
+                String scoreFormat = "%." + this.getAfterDotLength(nameAndScore.getScore()) + "f";
+                String nameText = String.format("%d | %s", i+1, nameAndScore.getName());
+                String scoreText = String.format(scoreFormat, nameAndScore.getScore());
+
+                float y = startY +(i*lineHeight);
+
+                c.drawText(nameText, nameColumnX, y, this.whitePaint);
+//                drawDashedLine(c, lineColumnX, y - 20, scoreColumnX - 80, y-20, this.whitePaint);
+                c.drawText("-----------------------------------", lineColumnX, y, this.whitePaint);
+                c.drawText(scoreText, scoreColumnX, y, this.whitePaint);
+                /*String name = this.leaderboardValues[i-1].getName();
                 double score = this.leaderboardValues[i-1].getScore();
                 c.drawText(String.format("%d | %s \t\r-----------------------------------------------\t\r %.3f", i, name, score), this.xLDB+150, (this.yLDB+200)+(50*i), this.whitePaint);
+                 */
             }
         }
+    }
+    private int getAfterDotLength(double score){
+        if (score > 10000)
+            return 0;
+        if (score > 1000)
+            return 1;
+        if (score > 100)
+            return 2;
+        if (score > 10)
+            return 3;
+        return 4;
+    }
+    private void drawDashedLine(Canvas c, float startX, float startY, float endX, float endY, Paint paint){
+        Paint dashPaint = new Paint(paint);
+        dashPaint.setStyle(Paint.Style.STROKE);
+        dashPaint.setPathEffect(new DashPathEffect(new float[]{15, 15}, 0));
+
+        Path path = new Path();
+        path.moveTo(startX, startY);
+        path.lineTo(endX, endY);
+        c.drawPath(path, dashPaint);
     }
 
     @Override
