@@ -1,22 +1,33 @@
 package com.example.SamuraiByte.main;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.SamuraiByte.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    private ActivityResultLauncher<Intent> contactLauncher;
     private Button loginButtonLoginPage, registerButtonLoginPage, registerButtonPopup;
-    private EditText nameInputLogin, passwordInputLogin, nameInputRegister, emailInputRegister, passwordInputRegister;
+    private ImageButton contactButtonLogin, contactButtonRegister;
+    private EditText nameInputLogin, passwordInputLogin, nameInputRegister, emailInputRegister, passwordInputRegister, inputToChangeContact;
     private DatabaseHandler dbHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +49,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        this.nameInput.setOnClickListener(this);
 
         this.passwordInputLogin = (EditText) findViewById(R.id.password_inputLogin);
+
+        this.contactButtonLogin = (ImageButton) findViewById(R.id.contact_button_login);
+        this.contactButtonLogin.setOnClickListener(this);
 //        this.passwordInput.setOnClickListener(this);
 
 //        this.nameInputRegister = findViewById(R.id.name_inputRegister);
@@ -48,9 +62,46 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //
 //        this.registerButtonPopup = findViewById(R.id.register_buttonRegister);
 //        this.registerButtonPopup.setOnClickListener(this);
+        this.initContactP();
         this.dbHandler = new DatabaseHandler(this);
+        this.inputToChangeContact = this.nameInputLogin;
     }
+    private void initContactP() {
 
+        contactLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        Cursor cursor = null;
+
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent intent = result.getData();
+                            try {
+                                Uri uri = intent.getData();
+
+                                cursor = getContentResolver().query(uri, null, null, null, null);
+                                cursor.moveToFirst();
+
+
+                                int phoneIndexName = cursor.getColumnIndex
+                                        (ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+
+
+                                String phoneName = cursor.getString(phoneIndexName);
+
+
+                                inputToChangeContact.setText(phoneName);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                });
+
+    }
     @Override
     public void onClick(View view) {
         if (view.getId() == this.loginButtonLoginPage.getId()){
@@ -69,6 +120,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         else if (view.getId() == this.registerButtonLoginPage.getId()){
             this.createRegisterDialog();
+
+        }
+        else if (view.getId() == this.contactButtonLogin.getId()){
+            this.inputToChangeContact = this.nameInputLogin;
+            Intent contactPickerIntent = new Intent(Intent.ACTION_PICK);
+            contactPickerIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+            this.contactLauncher.launch(contactPickerIntent);
         }
     }
     private boolean checkInput(String name, String password){
@@ -114,6 +172,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 else
                     Toast.makeText(context, "Name is more than 9 characters!", Toast.LENGTH_SHORT).show();
 
+            }
+        });
+        this.contactButtonRegister = (ImageButton) dialog.findViewById(R.id.contact_button_register);
+        this.contactButtonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                inputToChangeContact = nameInputRegister;
+                Intent contactPickerIntent = new Intent(Intent.ACTION_PICK);
+                contactPickerIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+                contactLauncher.launch(contactPickerIntent);
             }
         });
 
