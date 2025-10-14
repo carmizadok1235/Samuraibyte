@@ -26,13 +26,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback{
 //        this.gameLoop = new GameLoop(this);
 //        this.touchEvents = new TouchEvents(this);
         this.game = new Game(holder);
-//        this.playerMove = false;
-//        this.mapManager = new MapManager();
-//        this.player = new Player();
-//        this.gladiators = new ArrayList<>();
-//        for (int i = 0; i < 50; i++) {
-//            this.gladiators.add(new Gladiator(new PointF(500, 500)));
-//        }
+//
     }
 
 //    public void render(){

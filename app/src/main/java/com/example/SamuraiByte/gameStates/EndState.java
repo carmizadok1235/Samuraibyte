@@ -10,16 +10,13 @@ import android.view.MotionEvent;
 import com.example.SamuraiByte.GameConstants;
 import com.example.SamuraiByte.UI.GameImages;
 import com.example.SamuraiByte.interfaces.GameStateInterface;
+import com.example.SamuraiByte.main.DatabaseHandler;
 import com.example.SamuraiByte.main.Game;
-import com.example.SamuraiByte.main.LeaderboardHandler;
 import com.example.SamuraiByte.main.MainActivity;
 import com.example.SamuraiByte.utils.NameAndScore;
 
-import java.util.ArrayList;
-import java.util.jar.Attributes;
-
 public class EndState extends BaseState implements GameStateInterface {
-    private LeaderboardHandler leaderboardHandler;
+    private DatabaseHandler leaderboardHandler;
     private GameImages leaderboardBackground;
     private NameAndScore[] leaderboardValues;
     private float xLDB, yLDB;
@@ -27,7 +24,7 @@ public class EndState extends BaseState implements GameStateInterface {
     public EndState(Game game) {
         super(game);
 
-        this.leaderboardHandler = new LeaderboardHandler(MainActivity.getContext());
+        this.leaderboardHandler = new DatabaseHandler(MainActivity.getContext());
         this.leaderboardBackground = GameImages.LEADERBOARD_BACKGROUND;
         this.xLDB = (MainActivity.GAME_WIDTH-this.leaderboardBackground.getImage().getWidth())/2f;
         this.yLDB = (MainActivity.GAME_HEIGHT-this.leaderboardBackground.getImage().getHeight())/2f;
@@ -105,12 +102,12 @@ public class EndState extends BaseState implements GameStateInterface {
     }
     public void onNewScore(double newScore){
         String username = MainActivity.getUsername();
-        if (!this.leaderboardHandler.checkInDB(username)){
-            this.leaderboardHandler.addNewCourse(username, newScore);
+        if (!this.leaderboardHandler.checkInLeaderboardDB(username)){
+            this.leaderboardHandler.addNewLeaderboardCourse(username, newScore);
             this.leaderboardValues = this.leaderboardHandler.getLeaderboardArray();
         }
-        else if (newScore < this.leaderboardHandler.readScore(username)) {
-            this.leaderboardHandler.updateCourse(username, newScore);
+        else if (newScore < this.leaderboardHandler.readLeaderboardScore(username)) {
+            this.leaderboardHandler.updateLeaderboardCourse(username, newScore);
             this.leaderboardValues = this.leaderboardHandler.getLeaderboardArray();
         }
 //        System.out.println(this.leaderboardHandler.readScores(username));

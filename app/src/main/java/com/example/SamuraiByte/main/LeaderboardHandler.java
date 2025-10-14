@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LeaderboardHandler extends SQLiteOpenHelper {
-    private static final String DB_NAME = "LeaderboardDB";
+    private static final String DB_NAME = "SamuraiByteDatabase";
     private static final int DB_VERSION = 1;
     private static final String TABLE_NAME = "leaderboard";
     private static final String NAME_COL = "Name";

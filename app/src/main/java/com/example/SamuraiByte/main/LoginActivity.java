@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String password = passwordInputRegister.getText().toString().strip();
                 if (name.length() <= 9){
                     if (checkInput(name, email, password)){
-                        dbHandler.addNewCourse(
+                        dbHandler.addNewUsersCourse(
                                 name,
                                 email,
                                 password

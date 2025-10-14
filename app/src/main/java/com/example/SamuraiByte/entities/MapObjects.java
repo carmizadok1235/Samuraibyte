@@ -18,9 +18,9 @@ public enum MapObjects implements BitmapMethods {
 //    BOTTOM_LEFT_TREE_TRIANGLE(0,0,256,175,0,0,R.drawable.bottom_left_tree_triangle),
 //    BOTTOM_RIGHT_TREE_TRIANGLE(0,0,256,175,0,0,R.drawable.bottom_right_tree_triangle),
     TREE_SQUARE(0,0,752,688,0,0, R.drawable.tree_triangle2),
-    MEDIUM_STONE1(0,0,32,32, 0,0, R.drawable.stone_tileset),
+    MEDIUM_STONE1(0,0,32,32, 20,6, R.drawable.stone_tileset),
     MEDIUM_STONE2(0,32,32,32, 0,0,R.drawable.stone_tileset),
-    LARGE_STONE(32,0,64,48, 0,0,R.drawable.stone_tileset),
+    LARGE_STONE(32,0,64,48, 22,20,R.drawable.stone_tileset),
     LONG_STONE(80,0,32,48, 0,0,R.drawable.stone_tileset);
 
 
