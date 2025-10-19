@@ -34,11 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
+
         this.loginButtonLoginPage = (Button) findViewById(R.id.login_buttonLogin);
         this.loginButtonLoginPage.setOnClickListener(this);
 
@@ -46,22 +42,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         this.registerButtonLoginPage.setOnClickListener(this);
 
         this.nameInputLogin = (EditText) findViewById(R.id.name_inputLogin);
-//        this.nameInput.setOnClickListener(this);
 
         this.passwordInputLogin = (EditText) findViewById(R.id.password_inputLogin);
 
         this.contactButtonLogin = (ImageButton) findViewById(R.id.contact_button_login);
         this.contactButtonLogin.setOnClickListener(this);
-//        this.passwordInput.setOnClickListener(this);
 
-//        this.nameInputRegister = findViewById(R.id.name_inputRegister);
-//
-//        this.emailInputRegister = findViewById(R.id.email_inputRegister);
-//
-//        this.passwordInputRegister = findViewById(R.id.password_inputRegister);
-//
-//        this.registerButtonPopup = findViewById(R.id.register_buttonRegister);
-//        this.registerButtonPopup.setOnClickListener(this);
         this.initContactP();
         this.dbHandler = new DatabaseHandler(this);
         this.inputToChangeContact = this.nameInputLogin;
@@ -135,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return !name.isEmpty() && !password.isEmpty();
     }
     private boolean checkInput(String name, String email, String password){
-        return !name.isEmpty() && !email.isEmpty() &&!password.isEmpty() && !this.dbHandler.registerCheckInDB(name, email);
+        return !name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !this.dbHandler.registerCheckInDB(name, email);
     }
     private void createRegisterDialog(){
         Dialog dialog = new Dialog(this);

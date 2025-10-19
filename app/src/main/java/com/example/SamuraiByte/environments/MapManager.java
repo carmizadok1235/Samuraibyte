@@ -1,19 +1,26 @@
 package com.example.SamuraiByte.environments;
 
 import static com.example.SamuraiByte.GameConstants.SpriteSizes.HITBOX_SIZE;
+//import static com.example.SamuraiByte.GameConstants.map_background;
+//import static com.example.SamuraiByte.GameConstants.map_background;
+import static com.example.SamuraiByte.GameConstants.Map.BACKGROUND_MAP;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.example.SamuraiByte.GameConstants;
+import com.example.SamuraiByte.R;
 import com.example.SamuraiByte.entities.Enemy;
 import com.example.SamuraiByte.entities.Entity;
 import com.example.SamuraiByte.entities.BlackSorcerer;
 import com.example.SamuraiByte.entities.Player;
 import com.example.SamuraiByte.gameStates.GameStates;
 import com.example.SamuraiByte.gameStates.PlayingState;
+import com.example.SamuraiByte.main.MainActivity;
 
 import java.util.Arrays;
 
@@ -26,6 +33,7 @@ public class MapManager {
     private Entity[] drawablesArray;
     private boolean drawablesInitialized;
     private Paint redPaint;
+//    private Bitmap background;
 
     public MapManager(PlayingState playingState, Player player){
         this.playingState = playingState;
@@ -42,6 +50,7 @@ public class MapManager {
         this.updateCollisionManager();
         this.initDrawablesArray();
 //        this.setEnemiesPlayer();
+//        this.background = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.map_background);
     }
 
 //    private void setEnemiesPlayer() {
@@ -145,6 +154,15 @@ public class MapManager {
         this.drawablesInitialized = true;
     }
     public void drawTiles(Canvas c){
+//        c.drawBitmap(this.currentMap.getTileType().getSprite(this.currentMap.getSpriteByIndex(0,0)), -1*GameConstants.SpriteSizes.SIZE-this.cameraX,-1*GameConstants.SpriteSizes.SIZE-this.cameraY, null);
+//        Bitmap background = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.map_background);
+//        c.drawBitmap(map_background, -2256-this.cameraX, -2064-this.cameraY, null);
+        for (int i = 0; i < BACKGROUND_MAP.length; i++){
+            for (int j = 0; j < BACKGROUND_MAP[i].length; j++){
+                c.drawBitmap(this.currentMap.getTileType().getSprite(BACKGROUND_MAP[i][j]), j*GameConstants.SpriteSizes.SIZE-this.cameraX-1248, i*GameConstants.SpriteSizes.SIZE-this.cameraY-580, null);
+            }
+        }
+
         for (int i = 0; i < this.currentMap.getArrayHeight(); i++) {
             for (int j = 0; j < this.currentMap.getArrayWidth(); j++) {
                 c.drawBitmap(this.currentMap.getTileType().getSprite(this.currentMap.getSpriteByIndex(i, j)), j* GameConstants.SpriteSizes.SIZE-this.cameraX, i*GameConstants.SpriteSizes.SIZE-this.cameraY, null);
