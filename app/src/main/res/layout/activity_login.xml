@@ -59,6 +59,21 @@
         app:layout_constraintTop_toBottomOf="@+id/name_inputLogin"
         app:layout_constraintVertical_bias="0.113" />
 
+    <EditText
+        android:id="@+id/respond_boxLogin"
+        android:layout_width="199dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="2dp"
+        android:background="@android:drawable/edit_text"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint=""
+        android:padding="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/login_buttonLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_inputLogin" />
+
     <ImageButton
         android:id="@+id/contact_button_login"
         android:layout_width="wrap_content"

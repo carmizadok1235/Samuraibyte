@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -27,7 +28,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ActivityResultLauncher<Intent> contactLauncher;
     private Button loginButtonLoginPage, registerButtonLoginPage, registerButtonPopup;
     private ImageButton contactButtonLogin, contactButtonRegister;
-    private EditText nameInputLogin, passwordInputLogin, nameInputRegister, emailInputRegister, passwordInputRegister, inputToChangeContact;
+    private EditText nameInputLogin, passwordInputLogin, nameInputRegister, emailInputRegister, passwordInputRegister, inputToChangeContact, respondBoxLogin, respondBoxRegister;
     private DatabaseHandler dbHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         this.nameInputLogin = (EditText) findViewById(R.id.name_inputLogin);
 
         this.passwordInputLogin = (EditText) findViewById(R.id.password_inputLogin);
+
+        this.respondBoxLogin = (EditText) findViewById(R.id.respond_boxLogin);
 
         this.contactButtonLogin = (ImageButton) findViewById(R.id.contact_button_login);
         this.contactButtonLogin.setOnClickListener(this);
@@ -96,13 +99,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            Intent intent = new Intent(this, MainActivity.class);
 //            startActivity(intent);
             if (this.checkInput(name, password) && this.dbHandler.loginCheckInDB(name, password)){
-                Toast.makeText(this, "Login successfull", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Login successfull", Toast.LENGTH_SHORT).show();
+                this.respondBoxLogin.setText("Login successfull");
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("USERNAME", name);
                 startActivity(intent);
             }
             else
-                Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
+                this.respondBoxLogin.setText("Login Failed");
+//                Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
         }
         else if (view.getId() == this.registerButtonLoginPage.getId()){
             this.createRegisterDialog();
@@ -135,6 +140,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        System.out.println(this.nameInputRegister);
         this.emailInputRegister = (EditText) dialog.findViewById(R.id.email_inputRegister);
         this.passwordInputRegister = (EditText) dialog.findViewById(R.id.password_inputRegister);
+        this.respondBoxRegister = (EditText) dialog.findViewById(R.id.respond_boxRegister);
         this.registerButtonPopup = (Button) dialog.findViewById(R.id.register_buttonRegister);
         this.registerButtonPopup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,14 +155,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 email,
                                 password
                         );
-                        Toast.makeText(context, "Registration successfull", Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
+//                        Toast.makeText(context, "Registration successfull", Toast.LENGTH_SHORT).show();
+                        respondBoxRegister.setText("Registration successfull");
+//                        dialog.cancel();
                     }
                     else
-                        Toast.makeText(context, "Registration Failed", Toast.LENGTH_SHORT).show();
+                        respondBoxRegister.setText("Registration Failed");
+//                        Toast.makeText(context, "Registration Failed", Toast.LENGTH_SHORT).show();
                 }
                 else
-                    Toast.makeText(context, "Name is more than 9 characters!", Toast.LENGTH_SHORT).show();
+                    respondBoxRegister.setText("Name is more than 9 characters!");
+//                    Toast.makeText(context, "Name is more than 9 characters!", Toast.LENGTH_SHORT).show();
 
             }
         });
