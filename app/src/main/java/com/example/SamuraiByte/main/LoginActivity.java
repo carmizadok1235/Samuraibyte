@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,8 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
@@ -30,6 +29,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ImageButton contactButtonLogin, contactButtonRegister;
     private EditText nameInputLogin, passwordInputLogin, nameInputRegister, emailInputRegister, passwordInputRegister, inputToChangeContact, respondBoxLogin, respondBoxRegister;
     private DatabaseHandler dbHandler;
+    private SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         this.initContactP();
         this.dbHandler = new DatabaseHandler(this);
+
+        this.sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+//        String prefName = this.sharedPref.getString("Name", "NONE");
+//        String prefPassword = this.sharedPref.getString("Password", "NONE");
+        this.readPrefContents();
+
         this.inputToChangeContact = this.nameInputLogin;
+    }
+    private void readPrefContents(){
+        String prefName = this.sharedPref.getString("Name", "NONE");
+        String prefPassword = this.sharedPref.getString("Password", "NONE");
+
+        if (prefName != "NONE" && prefPassword != "NONE"){
+            this.nameInputLogin.setText(prefName);
+            this.passwordInputLogin.setText(prefPassword);
+        }
+    }
+    private void writePrefContents(String newName, String newPassword){
+        SharedPreferences.Editor editor = this.sharedPref.edit();
+        editor.putString("Name", newName);
+        editor.putString("Password", newPassword);
+        editor.apply();
     }
     private void initContactP() {
 
@@ -101,6 +123,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if (this.checkInput(name, password) && this.dbHandler.loginCheckInDB(name, password)){
 //                Toast.makeText(this, "Login successfull", Toast.LENGTH_SHORT).show();
                 this.respondBoxLogin.setText("Login successfull");
+                this.writePrefContents(name, password);
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("USERNAME", name);
                 startActivity(intent);
