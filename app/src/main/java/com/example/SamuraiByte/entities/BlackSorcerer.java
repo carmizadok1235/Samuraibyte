@@ -15,7 +15,7 @@ public class BlackSorcerer extends Enemy{
 
         this.weapon = new Weapon(new PointF(0,0),0,0, Weapons.LANCE, this);
         this.health = 800;
-        this.damage = 15;
+        this.damage = 10;
         RectF lifeBarRect = new RectF(pos.x-X_DRAW_OFFSET-10, pos.y-Y_DRAW_OFFSET-15, pos.x+HITBOX_SIZE+X_DRAW_OFFSET+10, pos.y-Y_DRAW_OFFSET);
         this.lifeBarFilled = new RectF(lifeBarRect);
         this.lifeBarStroke = new RectF(lifeBarRect);
