@@ -70,12 +70,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return count;
     }
     public boolean loginCheckInDB(String name, String password){
-//        SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT " + USERS_NAME_COL + ", "+ USERS_PASSWORD_COL + " FROM " + USERS_TABLE_NAME + " WHERE " + USERS_NAME_COL + "=? AND " + USERS_PASSWORD_COL + "=?";
-//        Cursor cursor = db.rawQuery(query, new String[]{name, password});
-
-//        int count = cursor.getCount();
-//        cursor.close();
 
         return this.executeQuery(query, new String[]{name, password}) >= 1;
     }
@@ -139,7 +134,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cursorScores.moveToLast();
 
 //        cursorNames.moveToPrevious();
-
 
         int i = cursorNames.getCount()-1;
         if (i == -1)

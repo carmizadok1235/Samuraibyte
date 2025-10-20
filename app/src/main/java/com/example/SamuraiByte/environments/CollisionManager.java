@@ -65,10 +65,6 @@ public class CollisionManager {
     }
     public static void checkPlayerAttack(){
         RectF weaponHitbox = getHitboxCopyWithAddition(player.getWeapon().getHitbox(), xPosCamera, yPosCamera);
-//        weaponHitbox.left = player.getWeapon().getHitbox().left + cameraX;
-//        weaponHitbox.top = player.getWeapon().getHitbox().top + cameraY;
-//        weaponHitbox.right = player.getWeapon().getHitbox().right + cameraX;
-//        weaponHitbox.bottom = player.getWeapon().getHitbox().bottom + cameraY;
 
         for (GameCharacter c : characterArrayList)
             if (weaponHitbox.intersects(
@@ -78,10 +74,6 @@ public class CollisionManager {
                     c.getHitbox().bottom
             ))
                 c.gotAttacked(player.getDamage());
-//                c.setHealth(c.getHealth()-player.getDamage());
-//                c.setActive(false);
-
-//        this.attackChecked = true;
     }
     public static void checkEnemyAttack(Enemy source){
         RectF playerHitbox = getHitboxCopyWithAddition(player.getHitbox(), xPosCamera, yPosCamera);
@@ -92,7 +84,6 @@ public class CollisionManager {
                 playerHitbox.bottom
         ))
             player.gotAttacked(source.getDamage());
-//            player.setHealth(player.getHealth()-source.getDamage());
     }
     public static void setPlayer(Player p){
         player = p;

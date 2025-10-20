@@ -9,9 +9,6 @@ import com.example.SamuraiByte.UI.HeartLevels;
 import com.example.SamuraiByte.main.MainActivity;
 
 public class Player extends GameCharacter{
-//    private Weapon weapon;
-//    private boolean attacking;
-    // temporary
     private Paint redPaint;
     private float lastCameraYValue;
     private HeartLevels heartLevel;
@@ -45,17 +42,6 @@ public class Player extends GameCharacter{
     public void updateHeartLevel() {
 //        System.out.println(this.heartLevel);
 //        System.out.println(this.health);
-//        if (Math.round(this.health) == 0)
-//            this.heartLevel = HeartLevels.HEART_LEVEL_ZERO;
-//        else if (this.health == 1)
-//            this.heartLevel = HeartLevels.HEART_LEVEL_ONE;
-//        else if (this.health == 2)
-//            this.heartLevel = HeartLevels.HEART_LEVEL_TWO;
-//        else if (this.health == 3)
-//            this.heartLevel = HeartLevels.HEART_LEVEL_THREE;
-//        else if (this.health == 4)
-//            this.heartLevel = HeartLevels.HEART_LEVEL_FOUR;
-//        System.out.println(this.health);
         switch (Math.round(this.health)){
             case 0 -> this.heartLevel = HeartLevels.HEART_LEVEL_ZERO;
             case 100 -> this.heartLevel = HeartLevels.HEART_LEVEL_ONE;
@@ -80,35 +66,4 @@ public class Player extends GameCharacter{
 //        System.out.println("other hitbox value: " + (other.hitbox.top));
         return Float.compare(this.hitbox.top+this.lastCameraYValue, other.hitbox.top);
     }
-    //    public void draw(Canvas c){
-//        c.drawBitmap(this.shadow.getImage(),
-//                this.hitbox.left,
-//                this.hitbox.bottom - SHADOW_OFFSET,
-//                null
-//        );
-//
-//        c.drawBitmap(
-//                this.character.getSprite(this.getAniType(), this.faceDir),
-//                this.hitbox.left - GameConstants.SpriteSizes.X_DRAW_OFFSET,
-//                this.hitbox.top - GameConstants.SpriteSizes.Y_DRAW_OFFSET,
-//                null
-//        );
-//        c.drawRect(this.hitbox, this.redPaint);
-//        if (this.attacking)
-//            this.weapon.draw(c);
-//    }
-//    private int getAniType(){
-//        if (this.attacking)
-//            return 4;
-//        return this.aniIndex;
-//    }
-//    public Weapon getWeapon(){
-//        return this.weapon;
-//    }
-//    public void setAttacking(boolean attacking){
-//        this.attacking = attacking;
-//    }
-//    public boolean isAttacking(){
-//        return this.attacking;
-//    }
 }

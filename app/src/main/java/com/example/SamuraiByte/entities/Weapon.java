@@ -14,7 +14,7 @@ public class Weapon extends Entity{
     private Weapons weaponType;
     private GameCharacter weaponHolder;
     // temporary
-    private Paint redPaint;
+    private final Paint redPaint;
 
     public Weapon(PointF pos, int width, int height, Weapons weapon, GameCharacter weaponHolder){
         super(new PointF(0,0), 0, 0);

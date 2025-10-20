@@ -7,7 +7,6 @@ import com.example.SamuraiByte.main.MainActivity;
 
 public final class GameConstants {
     public static final Bitmap background = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.samuraibyte_background);
-//    public static final Bitmap map_background = BitmapFactory.decodeResource(MainActivity.getContext().getResources(), R.drawable.map_background);
     public static final class WalkingDirection{
         public static final int DOWN = 0;
         public static final int UP = 1;

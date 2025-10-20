@@ -62,13 +62,8 @@ public class EndState extends BaseState implements GameStateInterface {
                 float y = startY +(i*lineHeight);
 
                 c.drawText(nameText, nameColumnX, y, this.whitePaint);
-//                drawDashedLine(c, lineColumnX, y - 20, scoreColumnX - 80, y-20, this.whitePaint);
                 c.drawText("-----------------------------------", lineColumnX, y, this.whitePaint);
                 c.drawText(scoreText, scoreColumnX, y, this.whitePaint);
-                /*String name = this.leaderboardValues[i-1].getName();
-                double score = this.leaderboardValues[i-1].getScore();
-                c.drawText(String.format("%d | %s \t\r-----------------------------------------------\t\r %.3f", i, name, score), this.xLDB+150, (this.yLDB+200)+(50*i), this.whitePaint);
-                 */
             }
         }
     }
@@ -82,16 +77,6 @@ public class EndState extends BaseState implements GameStateInterface {
         if (score > 10)
             return 3;
         return 4;
-    }
-    private void drawDashedLine(Canvas c, float startX, float startY, float endX, float endY, Paint paint){
-        Paint dashPaint = new Paint(paint);
-        dashPaint.setStyle(Paint.Style.STROKE);
-        dashPaint.setPathEffect(new DashPathEffect(new float[]{15, 15}, 0));
-
-        Path path = new Path();
-        path.moveTo(startX, startY);
-        path.lineTo(endX, endY);
-        c.drawPath(path, dashPaint);
     }
 
     @Override
@@ -110,6 +95,5 @@ public class EndState extends BaseState implements GameStateInterface {
             this.leaderboardHandler.updateLeaderboardCourse(username, newScore);
             this.leaderboardValues = this.leaderboardHandler.getLeaderboardArray();
         }
-//        System.out.println(this.leaderboardHandler.readScores(username));
     }
 }

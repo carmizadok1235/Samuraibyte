@@ -9,8 +9,6 @@ import com.example.SamuraiByte.R;
 import com.example.SamuraiByte.interfaces.BitmapMethods;
 
 public enum GameCharacters implements BitmapMethods {
-//    PLAYER(R.drawable.spritesheet),
-//    GLADIATOR(R.drawable.redgladiator_spritesheet),
     BLUE_SAMURAI(R.drawable.samurai_blue_spritesheet, R.drawable.samurai_blue_attacked_spritesheet),
     BLACK_SORCERER(R.drawable.sorcerer_black_spritesheet, R.drawable.sorcerer_black_attacked_spritesheet);
 
@@ -30,10 +28,6 @@ public enum GameCharacters implements BitmapMethods {
             }
         }
     }
-
-//    public Bitmap getSpriteSheet(){
-//        return this.spriteSheet;
-//    }
 
     public Bitmap getSprite(int row, int col, boolean attacked){
         return attacked ? this.attackedSprites[row][col] : this.sprites[row][col];

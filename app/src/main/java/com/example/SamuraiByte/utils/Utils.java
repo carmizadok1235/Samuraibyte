@@ -11,7 +11,6 @@ public final class Utils {
         float a = Math.abs(pos.x - circleCenterPos.x);
         float b = Math.abs(pos.y - circleCenterPos.y);
 
-//        float c = (float)Math.sqrt(Math.pow((double)a, 2) + Math.pow((double)b, 2));
         float c = calculatePythagorean(a, b);
         return c <= radius;
     }

@@ -103,7 +103,7 @@ public class Game {
     public void setCurrentGameState(GameStates currentGameState) {
         if (this.currentGameState == GameStates.PLAYING && currentGameState == GameStates.END){
             this.endGame();
-            System.out.println("time: " + this.lastElapsedTime);
+//            System.out.println("time: " + this.lastElapsedTime);
             this.endState.onNewScore(this.lastElapsedTime);
         }
         else if (currentGameState == GameStates.PLAYING)
@@ -111,14 +111,10 @@ public class Game {
         else
             this.endGame();
         this.currentGameState = currentGameState;
-//        this.currentGameState = currentGameState;
     }
     public void endGame(){
         this.lastElapsedTime = this.stopWatch.stop();
         this.playingState.resetGame();
-        System.out.println("time: " + this.lastElapsedTime);
-//        this.setCurrentGameState(GameStates.END);
-//        this.currentGameState = GameStates.END;
-//        this.playingState.resetGame();
+//        System.out.println("time: " + this.lastElapsedTime);
     }
 }

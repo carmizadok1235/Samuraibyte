@@ -65,8 +65,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         this.dbHandler = new DatabaseHandler(this);
 
         this.sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-//        String prefName = this.sharedPref.getString("Name", "NONE");
-//        String prefPassword = this.sharedPref.getString("Password", "NONE");
         this.readPrefContents();
 
         this.inputToChangeContact = this.nameInputLogin;
@@ -122,13 +120,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 cursor = getContentResolver().query(uri, null, null, null, null);
                                 cursor.moveToFirst();
 
-
                                 int phoneIndexName = cursor.getColumnIndex
                                         (ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
 
-
                                 String phoneName = cursor.getString(phoneIndexName);
-
 
                                 inputToChangeContact.setText(phoneName);
 
@@ -146,8 +141,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (view.getId() == this.loginButtonLoginPage.getId()){
             String name = this.nameInputLogin.getText().toString().strip();
             String password = this.passwordInputLogin.getText().toString().strip();
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
             if (this.checkInput(name, password) && this.dbHandler.loginCheckInDB(name, password)){
 //                Toast.makeText(this, "Login successfull", Toast.LENGTH_SHORT).show();
                 this.respondBoxLogin.setText("Login successfull");
@@ -158,7 +151,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
             else
                 this.respondBoxLogin.setText("Login Failed");
-//                Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
         }
         else if (view.getId() == this.registerButtonLoginPage.getId()){
             this.createRegisterDialog();
@@ -172,8 +164,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
     private boolean checkInput(String name, String password){
-//        String name = this.nameInputLogin.getText().toString().strip();
-//        String password = this.passwordInputLogin.getText().toString().strip();
         return !name.isEmpty() && !password.isEmpty();
     }
     private boolean checkInput(String name, String email, String password){
@@ -185,10 +175,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog.setCancelable(true);
         Context context = this;
 
-//        DatabaseHandler dbHandlerCopy = this.dbHandler;
-
         this.nameInputRegister = (EditText) dialog.findViewById(R.id.name_inputRegister);
-//        System.out.println(this.nameInputRegister);
         this.emailInputRegister = (EditText) dialog.findViewById(R.id.email_inputRegister);
         this.passwordInputRegister = (EditText) dialog.findViewById(R.id.password_inputRegister);
         this.respondBoxRegister = (EditText) dialog.findViewById(R.id.respond_boxRegister);
@@ -206,18 +193,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 email,
                                 password
                         );
-//                        Toast.makeText(context, "Registration successfull", Toast.LENGTH_SHORT).show();
                         respondBoxRegister.setText("Registration successfull");
-//                        dialog.cancel();
                     }
                     else
                         respondBoxRegister.setText("Registration Failed");
-//                        Toast.makeText(context, "Registration Failed", Toast.LENGTH_SHORT).show();
                 }
                 else
                     respondBoxRegister.setText("Name is more than 9 characters!");
-//                    Toast.makeText(context, "Name is more than 9 characters!", Toast.LENGTH_SHORT).show();
-
             }
         });
         this.contactButtonRegister = (ImageButton) dialog.findViewById(R.id.contact_button_register);

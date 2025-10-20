@@ -9,8 +9,8 @@ import com.example.SamuraiByte.entities.EnemyNames;
 public enum Levels {
     LEVEL1(EnemyNames.BLACK_SORCERER, 3, LevelNumbers.LEVEL1),
     LEVEL2(EnemyNames.BLACK_SORCERER, 5, LevelNumbers.LEVEL2),
-    LEVEL3(EnemyNames.BLACK_SORCERER, 0, LevelNumbers.LEVEL3),
-    LEVEL4(EnemyNames.BLACK_SORCERER, 0, LevelNumbers.LEVEL4),
+    LEVEL3(EnemyNames.BLACK_SORCERER, 7, LevelNumbers.LEVEL3),
+    LEVEL4(EnemyNames.BLACK_SORCERER, 9, LevelNumbers.LEVEL4),
     NOLEVEL(EnemyNames.NONE, 0, LevelNumbers.NONELEVEL);
 
     private Enemy[] enemies;
@@ -27,7 +27,6 @@ public enum Levels {
 
     public void initEnemies() {
         for (int i = 0; i < this.numberOfEnemies; i++){
-//            System.out.println("adding enemies");
             switch (this.enemyName){
                 case BLACK_SORCERER -> this.enemies[i] = new BlackSorcerer(new PointF(i*500, 2000));
             }

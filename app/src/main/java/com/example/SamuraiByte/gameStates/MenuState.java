@@ -38,7 +38,6 @@ public class MenuState extends BaseState implements GameStateInterface {
 
     @Override
     public void render(Canvas c) {
-//        c.drawText("MENU", 1000, 300, this.paint);
         c.drawBitmap(GameConstants.background, 0, 0, null);
 
         c.drawBitmap(

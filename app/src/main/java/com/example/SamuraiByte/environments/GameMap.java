@@ -41,17 +41,9 @@ public class GameMap {
             this.charactersArrayList.add(this.level.getEnemies()[i]);
         }
     }
-//    public void addGladiator(float x, float y){
-//        this.charactersArrayList.add(new BlackSorcerer(new PointF(x, y)));
-//    }
-
 
     private void initTrees(){
         this.mapObjectArrayList.add(new MapObject(new PointF(0,0), MapObjects.TREE_SQUARE));
-//        this.mapObjectArrayList.add(new MapObject(new PointF(0,0), MapObjects.TOP_LEFT_TREE_TRIANGLE));
-//        this.mapObjectArrayList.add(new MapObject(new PointF(this.getMapWidth()-MapObjects.TOP_RIGHT_TREE_TRIANGLE.getWidth(),0), MapObjects.TOP_RIGHT_TREE_TRIANGLE));
-//        this.mapObjectArrayList.add(new MapObject(new PointF(0,this.getMapHeight()-MapObjects.BOTTOM_LEFT_TREE_TRIANGLE.getHeight()), MapObjects.BOTTOM_LEFT_TREE_TRIANGLE));
-//        this.mapObjectArrayList.add(new MapObject(new PointF(this.getMapWidth()-MapObjects.BOTTOM_RIGHT_TREE_TRIANGLE.getWidth(),this.getMapHeight()-MapObjects.BOTTOM_RIGHT_TREE_TRIANGLE.getHeight()), MapObjects.BOTTOM_RIGHT_TREE_TRIANGLE));
     }
     public Entity[] getDrawableArray(){
         Entity[] drawables = new Entity[this.getDrawablesLength()];
@@ -70,7 +62,6 @@ public class GameMap {
     public void setLevel(LevelNumbers levelNumber){
         this.level = Levels.getLevelByNumber(levelNumber);
         if (this.level != null){
-//            System.out.println("hereerereee");
             this.initCharacters();
         }
     }

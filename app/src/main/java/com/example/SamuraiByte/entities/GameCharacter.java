@@ -24,10 +24,9 @@ public abstract class GameCharacter extends Entity{
     protected final GameCharacters character;
     protected GameImages shadow;
     protected int base_speed;
-    private Paint redPaint;
+    private final Paint redPaint;
     protected long lastTimeRetreat = System.currentTimeMillis();
     protected long lastTimeAttacked;
-    private int animationsPerSecond = 0;
 
     public GameCharacter(PointF pos, GameCharacters character){
         super(new PointF(pos.x, pos.y), GameConstants.SpriteSizes.HITBOX_SIZE, GameConstants.SpriteSizes.HITBOX_SIZE);
@@ -35,7 +34,6 @@ public abstract class GameCharacter extends Entity{
         this.character = character;
 
         this.weapon = null;
-//        this.health = 4;
         this.attacking = false;
 
         this.shadow = GameImages.SHADOW;
@@ -49,15 +47,7 @@ public abstract class GameCharacter extends Entity{
     }
 
     protected void updateAnimation(){
-//        this.attacked = false;
-//        long nowTime = System.currentTimeMillis();
-//        if (nowTime - lastTime >= 1000){
-//            System.out.println("animations per sec: " + this.animationsPerSecond);
-//            lastTime = nowTime;
-//            this.animationsPerSecond = 0;
-//        }
         this.aniTick++;
-//        this.animationsPerSecond+=1;
 
         if (this.aniTick >= GameConstants.Animation.SPEED){
             this.aniTick = 0;
@@ -69,8 +59,6 @@ public abstract class GameCharacter extends Entity{
     }
     public PointF updateMove(double deltaTime, PointF targetPos, PointF center){
         PointF diff = new PointF(targetPos.x - center.x,targetPos.y - center.y);
-//        diff.x = targetPos.x - center.x;
-//        diff.y = targetPos.y - center.y;
         float angle = calculateAngle(diff);
 
         float xSpeed = calculateXSpeed(angle);
@@ -169,10 +157,6 @@ public abstract class GameCharacter extends Entity{
         return this.weapon;
     }
     public void setAttacking(boolean attacking){
-//        if (attacking){
-//            this.health--;
-//            System.out.println(this.health);
-//        }
         this.attacking = attacking;
     }
     public boolean isAttacking(){

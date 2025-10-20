@@ -9,8 +9,6 @@ import com.example.SamuraiByte.main.MainActivity;
 import com.example.SamuraiByte.GameConstants;
 
 public enum Weapons implements BitmapMethods {
-    AXE(R.drawable.axe),
-    BIG_SWORD(R.drawable.big_sword),
     LANCE(R.drawable.lance);
 
     private Bitmap weaponImage;
