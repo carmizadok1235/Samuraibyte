@@ -42,7 +42,7 @@ public class EndState extends BaseState implements GameStateInterface {
     @Override
     public void render(Canvas c) {
 //        c.drawColor(Color.BLACK);
-        c.drawBitmap(GameConstants.background, 0, 0, null);
+        c.drawBitmap(GameConstants.scaled_background, 0, 0, null);
         c.drawBitmap(this.leaderboardBackground.getImage(), this.xLDB, this.yLDB, null);
 
         if (this.leaderboardValues != null){
