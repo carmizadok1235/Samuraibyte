@@ -21,13 +21,14 @@ public abstract class Enemy extends GameCharacter{
     protected int sightRadius;
     protected int attackingRadius;
     protected RectF playerHitbox;
-    protected boolean alignedWithPlayer;
+//    protected boolean alignedWithPlayer;
     protected boolean horizontalSide;
     private boolean didAttack;
     protected RectF lifeBarFilled;
     protected RectF lifeBarStroke;
     private final Paint greenPaintFilled;
     private final Paint greenPaintStroke;
+    private long lastTimeRetreat;
 
     public Enemy(PointF pos, GameCharacters character){
         super(pos, character);
@@ -38,7 +39,7 @@ public abstract class Enemy extends GameCharacter{
         this.attackingRadius = 125;
         this.attackTick = 0;
         this.base_speed = GameConstants.Walking.BASE_ENEMY_SPEED;
-        this.alignedWithPlayer = false;
+//        this.alignedWithPlayer = false;
         this.horizontalSide = getRandomBoolean(0.5f);
         this.lastTimeRetreat = -1;
         this.didAttack = false;
@@ -224,9 +225,9 @@ public abstract class Enemy extends GameCharacter{
         this.lifeBarFilled.right-=(damage/(this.health))*(this.lifeBarFilled.right-this.lifeBarFilled.left);
     }
 
-    public boolean isAlignedWithPlayer() {
-        return this.alignedWithPlayer;
-    }
+//    public boolean isAlignedWithPlayer() {
+//        return this.alignedWithPlayer;
+//    }
 
     public EnemyState getState(){
         return this.state;

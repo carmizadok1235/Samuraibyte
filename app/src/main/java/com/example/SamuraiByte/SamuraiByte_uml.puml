@@ -1,0 +1,638 @@
+@startuml SamuraiByte
+!theme plain
+
+
+skinparam class {
+    BackgroundColor #ffffff
+    BorderColor #cccccc
+    FontColor #333333
+    HeaderBackgroundColor #eeeeee
+    HeaderFontColor #333333
+    StereotypeFontColor #333333
+}
+skinparam arrow {
+    Color #999999
+    FontColor #333333
+}
+skinparam note {
+    BackgroundColor #ffffff
+    BorderColor #cccccc
+    FontColor #333333
+}
+skinparam package {
+    BackgroundColor #ffffff
+    BorderColor #cccccc
+    FontColor #333333
+    Style rectangle
+}
+skinparam shadowing false
+skinparam backgroundColor #ffffff
+skinparam classBackgroundColor #ffffff
+skinparam classBorderColor #bbbbbb
+skinparam classHeaderBackgroundColor #e8e8e8
+skinparam classFontColor #333333
+skinparam classAttributeFontColor #333333
+skinparam arrowColor #999999
+skinparam packageBackgroundColor #ffffff
+skinparam packageBorderColor #bbbbbb
+skinparam packageFontColor #555555
+skinparam classAttributeIconSize 0
+
+
+
+title SamuraiByte - Full Project Class Diagram
+
+' =====================
+' MAIN PACKAGE
+' =====================
+package "main" {
+
+    class LoginActivity {
+        - context: Context
+        - dbHandler: DatabaseHandler
+        - sharedPref: SharedPreferences
+        - broadcastReceiver: BroadcastReceiver
+        - contactLauncher: ActivityResultLauncher
+        + onCreate(savedInstanceState: Bundle): void
+        - readPrefContents(): void
+        - writePrefContents(name: String, password: String): void
+        - initContactP(): void
+        - checkInput(name: String, password: String): boolean
+        - checkInput(name: String, email: String, password: String): boolean
+        - createRegisterDialog(): void
+        + onClick(view: View): void
+    }
+
+    class MainActivity {
+        - {static} gameContext: Context
+        - {static} username: String
+        + {static} GAME_WIDTH: int
+        + {static} GAME_HEIGHT: int
+        + onCreate(savedInstanceState: Bundle): void
+        + {static} getContext(): Context
+        + {static} getUsername(): String
+    }
+
+    class GamePanel {
+        - game: Game
+        + GamePanel(context: Context)
+        + onTouchEvent(event: MotionEvent): boolean
+        + surfaceCreated(holder: SurfaceHolder): void
+        + surfaceChanged(...): void
+        + surfaceDestroyed(...): void
+    }
+
+    class Game {
+        - holder: SurfaceHolder
+        - gameLoop: GameLoop
+        - stopWatch: StopWatch
+        - menuState: MenuState
+        - playingState: PlayingState
+        - endState: EndState
+        - deadState: DeadState
+        - currentGameState: GameStates
+        + Game(holder: SurfaceHolder)
+        + startGameLoop(): void
+        + render(): void
+        + update(delta: double): void
+        + touchEvent(event: MotionEvent): boolean
+        + setCurrentGameState(state: GameStates): void
+        + endGame(): void
+    }
+
+    class GameLoop {
+        - gameThread: Thread
+        - game: Game
+        + GameLoop(game: Game)
+        + run(): void
+        + startLoop(): void
+    }
+
+    class StopWatch {
+        - running: boolean
+        - startTime: long
+        + start(): void
+        + stop(): double
+        + run(): void
+    }
+
+    class DatabaseHandler {
+        - {static} DB_NAME: String
+        - {static} USERS_TABLE_NAME: String
+        - {static} SCOREBOARD_TABLE_NAME: String
+        + DatabaseHandler(context: Context)
+        + onCreate(db: SQLiteDatabase): void
+        + addNewUsersCourse(name: String, email: String, password: String): void
+        + loginCheckInDB(name: String, password: String): boolean
+        + registerCheckInDB(name: String, email: String): boolean
+        + addNewLeaderboardCourse(name: String, score: double): void
+        + updateLeaderboardCourse(name: String, score: double): void
+        + checkInLeaderboardDB(name: String): boolean
+        + readLeaderboardScore(username: String): double
+        + getLeaderboardArray(): NameAndScore[]
+    }
+}
+
+' =====================
+' GAME STATES PACKAGE
+' =====================
+package "gameStates"  {
+
+    enum GameStates {
+        MENU
+        PLAYING
+        END
+        DEAD
+    }
+
+    abstract class BaseState {
+        # game: Game
+        + BaseState(game: Game)
+        + getGame(): Game
+        + setGameState(state: GameStates): void
+    }
+
+    interface GameStateInterface {
+        + update(delta: double): void
+        + render(c: Canvas): void
+        + touchEvents(event: MotionEvent): void
+    }
+
+    class MenuState {
+        - startButton: CustomButton
+        - leaderboardButton: CustomButton
+        - menuX: int
+        - menuY: int
+        + MenuState(game: Game)
+        + update(delta: double): void
+        + render(c: Canvas): void
+        + touchEvents(event: MotionEvent): void
+    }
+
+    class PlayingState {
+        - cameraX: float
+        - cameraY: float
+        - player: Player
+        - mapManager: MapManager
+        - playingStateUI: PlayingStateUI
+        - playerMove: boolean
+        - attackChecked: boolean
+        + PlayingState(game: Game)
+        + update(delta: double): void
+        + render(c: Canvas): void
+        + touchEvents(event: MotionEvent): void
+        + setPlayerMove(move: boolean, touch: PointF): void
+        + setAttacking(attacking: boolean): void
+        + resetGame(): void
+        + getPlayer(): Player
+    }
+
+    class EndState {
+        - leaderboardHandler: DatabaseHandler
+        - leaderboardValues: NameAndScore[]
+        + EndState(game: Game)
+        + update(delta: double): void
+        + render(c: Canvas): void
+        + touchEvents(event: MotionEvent): void
+        + onNewScore(newScore: double): void
+    }
+
+    class DeadState {
+        - youDiedText: Bitmap
+        + DeadState(game: Game)
+        + update(delta: double): void
+        + render(c: Canvas): void
+        + touchEvents(event: MotionEvent): void
+    }
+}
+
+' =====================
+' ENTITIES PACKAGE
+' =====================
+package "entities"  {
+
+    interface EntityInterface {
+        + update(delta: double): void
+        + draw(c: Canvas, cameraX: float, cameraY: float): void
+    }
+
+    abstract class Entity {
+        # hitbox: RectF
+        # active: boolean
+        + Entity(pos: PointF, width: float, height: float)
+        + getHitbox(): RectF
+        + isActive(): boolean
+        + setActive(active: boolean): void
+        + compareTo(other: Entity): int
+    }
+
+    abstract class GameCharacter {
+        # weapon: Weapon
+        # health: int
+        # damage: int
+        # attacking: boolean
+        # attacked: boolean
+        # aniTick: int
+        # aniIndex: int
+        # faceDir: int
+        # character: GameCharacters
+        # base_speed: int
+        + GameCharacter(pos: PointF, character: GameCharacters)
+        + update(delta: double): void
+        + updateMove(delta: double, target: PointF, center: PointF): PointF
+        + draw(c: Canvas, cameraX: float, cameraY: float): void
+        + gotAttacked(damage: float): void
+        + setAttacking(attacking: boolean): void
+        + isAttacking(): boolean
+        + getHealth(): float
+        + getDamage(): float
+    }
+
+    class Player {
+        - heartLevel: HeartLevels
+        - playerMove: boolean
+        + Player()
+        + update(delta: double): void
+        + updateHeartLevel(): void
+        + getHeartLevel(): HeartLevels
+        + setPlayerMove(move: boolean): void
+        + compareTo(other: Entity): int
+    }
+
+    abstract class Enemy {
+        # state: EnemyState
+        # sightRadius: int
+        # attackingRadius: int
+        # playerHitbox: RectF
+        # lifeBarFilled: RectF
+        # lifeBarStroke: RectF
+        + Enemy(pos: PointF, character: GameCharacters)
+        + update(delta: double): void
+        + setPlayerHitbox(hitbox: RectF): void
+        + getTargetPos(): PointF
+        + getRetreatPos(): PointF
+        + updateXCharacterValues(delta: float): void
+        + updateYCharacterValues(delta: float): void
+        + gotAttacked(damage: float): void
+        + getState(): EnemyState
+        + getSightRadius(): float
+        + getAttackingRadius(): float
+    }
+
+    class BlackSorcerer {
+        + BlackSorcerer(pos: PointF)
+    }
+
+    class Weapon {
+        - weaponType: Weapons
+        - weaponHolder: GameCharacter
+        + Weapon(pos: PointF, width: int, height: int, weapon: Weapons, holder: GameCharacter)
+        + update(delta: double): void
+        + draw(c: Canvas, cameraX: float, cameraY: float): void
+    }
+
+    class MapObject {
+        - pos: PointF
+        - objectType: MapObjects
+        + MapObject(pos: PointF, objectType: MapObjects)
+        + update(delta: double): void
+        + draw(c: Canvas, cameraX: float, cameraY: float): void
+        + getImage(): Bitmap
+        + getPos(): PointF
+    }
+
+    enum GameCharacters {
+        BLUE_SAMURAI
+        BLACK_SORCERER
+        + getSprite(row: int, col: int, attacked: boolean): Bitmap
+    }
+
+    enum Weapons {
+        LANCE
+        + getWeaponImage(dir: int): Bitmap
+        + getWidth(): int
+        + getHeight(): int
+    }
+
+    enum MapObjects {
+        HOUSE1
+        HOUSE2
+        TREE_SQUARE
+        MEDIUM_STONE1
+        MEDIUM_STONE2
+        LARGE_STONE
+        LONG_STONE
+        INVISIBLE_BLOCK1
+        LEFT_EDGE_PIPE
+        HORIZONTAL_PIPE
+        RIGHT_EDGE_PIPE
+        + getObjectImage(): Bitmap
+        + getWidth(): int
+        + getHeight(): int
+        + getBaseX(): float
+        + getBaseHeight(): float
+    }
+
+    enum EnemyState {
+        IDLE
+        PURSUING
+        ATTACKING
+        RETREATING
+    }
+
+    enum EnemyNames {
+        BLACK_SORCERER
+        NONE
+    }
+}
+
+' =====================
+' ENVIRONMENTS PACKAGE
+' =====================
+package "environments"  {
+
+    class GameMap {
+        - spriteIndexes: int[][]
+        - mapObjectArrayList: ArrayList<MapObject>
+        - charactersArrayList: ArrayList<GameCharacter>
+        - tileType: Tiles
+        - level: Levels
+        + GameMap(spriteIndexes: int[][], tileType: Tiles, level: Levels)
+        + initMap(): void
+        + getDrawableArray(): Entity[]
+        + setLevel(levelNumber: LevelNumbers): void
+        + getMapWidth(): int
+        + getMapHeight(): int
+        + getSpriteByIndex(y: int, x: int): int
+        + getMapObjectArrayList(): ArrayList<MapObject>
+        + getCharactersArrayList(): ArrayList<GameCharacter>
+    }
+
+    class MapManager {
+        - currentMap: GameMap
+        - cameraX: float
+        - cameraY: float
+        - player: Player
+        - drawablesArray: Entity[]
+        + MapManager(playingState: PlayingState, player: Player)
+        + update(): void
+        + draw(c: Canvas): void
+        + drawTiles(c: Canvas): void
+        + canMoveHereX(pos: RectF): boolean
+        + canMoveHereY(pos: RectF): boolean
+        + reset(): void
+        + getMapWidth(): int
+        + getMapHeight(): int
+    }
+
+    class CollisionManager {
+        - {static} mapBoundX: int
+        - {static} mapBoundY: int
+        - {static} player: Player
+        - {static} characterArrayList: ArrayList<GameCharacter>
+        - {static} mapObjectArrayList: ArrayList<MapObject>
+        + {static} canMoveHereX(pos: RectF): boolean
+        + {static} canMoveHereY(pos: RectF): boolean
+        + {static} checkPlayerAttack(): void
+        + {static} checkEnemyAttack(source: Enemy): void
+        + {static} lineOfSightIntersectsWithObject(a: PointF, b: PointF): boolean
+        + {static} setMapBounds(x: int, y: int): void
+        + {static} setPlayer(p: Player): void
+        + {static} setPosCamera(x: float, y: float): void
+    }
+
+    enum Tiles {
+        OUTSIDE
+        + getSprite(index: int): Bitmap
+    }
+
+    enum Levels {
+        LEVEL1
+        LEVEL2
+        LEVEL3
+        LEVEL4
+        NOLEVEL
+        + initEnemies(): void
+        + getEnemies(): Enemy[]
+        + getNumberOfEnemies(): int
+        + getLevelNumber(): LevelNumbers
+        + {static} getLevelByNumber(n: LevelNumbers): Levels
+    }
+
+    enum LevelNumbers {
+        LEVEL1
+        LEVEL2
+        LEVEL3
+        LEVEL4
+        NONELEVEL
+    }
+}
+
+' =====================
+' UI PACKAGE
+' =====================
+package "UI"  {
+
+    class PlayingStateUI {
+        - menuButton: CustomButton
+        - attackButton: CustomButton
+        - joystickCenterPos: PointF
+        - innerJoystickCenterPos: PointF
+        - joystickRadius: float
+        + PlayingStateUI(playingState: PlayingState)
+        + draw(c: Canvas): void
+        + touchEvents(event: MotionEvent): void
+        + getJoystickCenterPos(): PointF
+        + reset(): void
+    }
+
+    class CustomButton {
+        - hitBox: RectF
+        - buttonImage: ButtonImages
+        - isPushed: boolean
+        - pointerId: int
+        + CustomButton(x: int, y: int, buttonImage: ButtonImages)
+        + getHitBox(): RectF
+        + getButtonImage(): Bitmap
+        + isPushed(): boolean
+        + setPushed(pushed: boolean): void
+        + isInButton(eventPos: PointF): boolean
+        + setPointerId(pointerId: int): void
+    }
+
+    enum ButtonImages {
+        START
+        SCOREBOARD
+        MENU
+        ATTACK_BUTTON
+        + getWidth(): int
+        + getHeight(): int
+        + getImage(isPushed: boolean): Bitmap
+    }
+
+    enum GameImages {
+        MENU_BACKGROUD
+        LEADERBOARD_BACKGROUND
+        SHADOW
+        + getImage(): Bitmap
+    }
+
+    enum HeartImages {
+        HEART_ZERO
+        HEART_ONE
+        HEART_TWO
+        HEART_THREE
+        HEART_FOUR
+        + getImage(): Bitmap
+        + getWidth(): float
+        + getHeight(): float
+    }
+
+    enum HeartLevels {
+        HEART_LEVEL_ZERO
+        HEART_LEVEL_ONE
+        HEART_LEVEL_TWO
+        HEART_LEVEL_THREE
+        HEART_LEVEL_FOUR
+    }
+}
+
+' =====================
+' UTILS PACKAGE
+' =====================
+package "utils"  {
+
+    class Utils {
+        + {static} calculatePythagorean(a: float, b: float): float
+        + {static} isInsideCircle(pos: PointF, center: PointF, radius: float): boolean
+        + {static} calculateAngle(diff: PointF): float
+        + {static} calculateXSpeed(angle: float): float
+        + {static} calculateYSpeed(angle: float): float
+        + {static} getHitboxCopyWithAddition(hitbox: RectF, x: float, y: float): RectF
+        + {static} getRandomBoolean(chance: float): boolean
+    }
+
+    class LinearFunction {
+        - c: float
+        - m: float
+        + LinearFunction(a: PointF, b: PointF)
+        + getX(y: float): float
+        + getY(x: float): float
+    }
+
+    class NameAndScore {
+        - name: String
+        - score: double
+        + NameAndScore(name: String, score: double)
+        + getName(): String
+        + getScore(): double
+        + compareTo(other: NameAndScore): int
+    }
+}
+
+' =====================
+' INTERFACES PACKAGE
+' =====================
+package "interfaces"  {
+    interface BitmapMethods {
+        + getBitmapResized(bitmap: Bitmap): Bitmap
+        + getBitmapResized(bitmap: Bitmap, scaleSize: int): Bitmap
+        + rotateBitmap(bitmap: Bitmap, degrees: int): Bitmap
+    }
+}
+
+' =====================
+' GAME CONSTANTS
+' =====================
+class GameConstants {
+    + {static} background: Bitmap
+    + {static} scaled_background: Bitmap
+    + WalkingDirection: class
+    + SpriteSizes: class
+    + Animation: class
+    + Walking: class
+    + Map: class
+}
+
+' =====================
+' RELATIONSHIPS
+' =====================
+
+' Main flow
+LoginActivity --> MainActivity : "starts via Intent"
+MainActivity *-- GamePanel
+GamePanel *-- Game
+Game *-- GameLoop
+Game *-- StopWatch
+Game *-- MenuState
+Game *-- PlayingState
+Game *-- EndState
+Game *-- DeadState
+Game --> GameStates
+
+' GameStates hierarchy
+BaseState <|-- MenuState
+BaseState <|-- PlayingState
+BaseState <|-- EndState
+BaseState <|-- DeadState
+GameStateInterface <|.. MenuState
+GameStateInterface <|.. PlayingState
+GameStateInterface <|.. EndState
+GameStateInterface <|.. DeadState
+
+' PlayingState dependencies
+PlayingState *-- Player
+PlayingState *-- MapManager
+PlayingState *-- PlayingStateUI
+PlayingState --> CollisionManager
+
+' MapManager dependencies
+MapManager *-- GameMap
+GameMap *-- "0..*" MapObject
+GameMap *-- "0..*" Enemy
+GameMap --> Tiles
+GameMap --> Levels
+Levels --> LevelNumbers
+
+' Entity hierarchy
+EntityInterface <|.. Entity
+Entity <|-- GameCharacter
+Entity <|-- MapObject
+Entity <|-- Weapon
+GameCharacter <|-- Player
+GameCharacter <|-- Enemy
+Enemy <|-- BlackSorcerer
+GameCharacter *-- Weapon
+Weapon --> Weapons
+GameCharacter --> GameCharacters
+Enemy --> EnemyState
+Enemy --> EnemyNames
+
+' UI dependencies
+PlayingStateUI *-- "2" CustomButton
+PlayingStateUI --> HeartImages
+PlayingStateUI --> HeartLevels
+CustomButton --> ButtonImages
+EndState --> DatabaseHandler
+LoginActivity --> DatabaseHandler
+
+' Interface implementations
+BitmapMethods <|.. GameCharacters
+BitmapMethods <|.. ButtonImages
+BitmapMethods <|.. GameImages
+BitmapMethods <|.. HeartImages
+BitmapMethods <|.. MapObjects
+BitmapMethods <|.. Tiles
+BitmapMethods <|.. Weapons
+
+' CollisionManager dependencies
+CollisionManager --> Player
+CollisionManager --> Enemy
+CollisionManager --> MapObject
+CollisionManager --> LinearFunction
+
+' MenuState dependencies
+MenuState *-- "2" CustomButton
+MenuState --> GameImages
+
+@enduml

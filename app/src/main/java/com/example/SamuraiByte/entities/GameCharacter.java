@@ -25,7 +25,6 @@ public abstract class GameCharacter extends Entity{
     protected GameImages shadow;
     protected int base_speed;
     private final Paint redPaint;
-    protected long lastTimeRetreat = System.currentTimeMillis();
     protected long lastTimeAttacked;
 
     public GameCharacter(PointF pos, GameCharacters character){

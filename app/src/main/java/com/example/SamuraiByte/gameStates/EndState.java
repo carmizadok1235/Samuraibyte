@@ -2,9 +2,7 @@ package com.example.SamuraiByte.gameStates;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.view.MotionEvent;
 
 import com.example.SamuraiByte.GameConstants;
@@ -21,13 +19,15 @@ public class EndState extends BaseState implements GameStateInterface {
     private NameAndScore[] leaderboardValues;
     private float xLDB, yLDB;
     private Paint whitePaint;
+    // -------------------------
+    private boolean leaderboardShown = false;
     public EndState(Game game) {
         super(game);
 
         this.leaderboardHandler = new DatabaseHandler(MainActivity.getContext());
         this.leaderboardBackground = GameImages.LEADERBOARD_BACKGROUND;
         this.xLDB = (MainActivity.GAME_WIDTH-this.leaderboardBackground.getImage().getWidth())/2f;
-        this.yLDB = (MainActivity.GAME_HEIGHT-this.leaderboardBackground.getImage().getHeight())/2f;
+        this.yLDB = (MainActivity.GAME_HEIGHT-this.leaderboardBackground.getImage().getHeight())/2f+100;
         this.leaderboardValues = leaderboardHandler.getLeaderboardArray();
         this.whitePaint = new Paint();
         this.whitePaint.setColor(Color.WHITE);
@@ -36,7 +36,10 @@ public class EndState extends BaseState implements GameStateInterface {
 
     @Override
     public void update(double delta) {
-
+        if (!this.leaderboardShown){
+            this.leaderboardShown = true;
+            ((MainActivity)MainActivity.getContext()).showLeaderboard(this.leaderboardValues);
+        }
     }
 
     @Override
@@ -45,27 +48,27 @@ public class EndState extends BaseState implements GameStateInterface {
         c.drawBitmap(GameConstants.scaled_background, 0, 0, null);
         c.drawBitmap(this.leaderboardBackground.getImage(), this.xLDB, this.yLDB, null);
 
-        if (this.leaderboardValues != null){
-            float startY = this.yLDB+200;
-            float lineHeight = 60;
-
-            float nameColumnX = this.xLDB + 125;
-            float lineColumnX = this.xLDB + 150 + 300;
-            float scoreColumnX = this.xLDB + 150 + 900;
-
-            for (int i = 0; i < this.leaderboardValues.length; i++){
-                NameAndScore nameAndScore = this.leaderboardValues[i];
-                String scoreFormat = "%." + this.getAfterDotLength(nameAndScore.getScore()) + "f";
-                String nameText = String.format("%d | %s", i+1, nameAndScore.getName());
-                String scoreText = String.format(scoreFormat, nameAndScore.getScore());
-
-                float y = startY +(i*lineHeight);
-
-                c.drawText(nameText, nameColumnX, y, this.whitePaint);
-                c.drawText("-----------------------------------", lineColumnX, y, this.whitePaint);
-                c.drawText(scoreText, scoreColumnX, y, this.whitePaint);
-            }
-        }
+//        if (this.leaderboardValues != null){
+//            float startY = this.yLDB+200;
+//            float lineHeight = 60;
+//
+//            float nameColumnX = this.xLDB + 125;
+//            float lineColumnX = this.xLDB + 150 + 300;
+//            float scoreColumnX = this.xLDB + 150 + 900;
+//
+//            for (int i = 0; i < this.leaderboardValues.length; i++){
+//                NameAndScore nameAndScore = this.leaderboardValues[i];
+//                String scoreFormat = "%." + this.getAfterDotLength(nameAndScore.getScore()) + "f";
+//                String nameText = String.format("%d | %s", i+1, nameAndScore.getName());
+//                String scoreText = String.format(scoreFormat, nameAndScore.getScore());
+//
+//                float y = startY +(i*lineHeight);
+//
+//                c.drawText(nameText, nameColumnX, y, this.whitePaint);
+//                c.drawText("-----------------------------------", lineColumnX, y, this.whitePaint);
+//                c.drawText(scoreText, scoreColumnX, y, this.whitePaint);
+//            }
+//        }
     }
     private int getAfterDotLength(double score){
         if (score > 10000)
@@ -82,7 +85,10 @@ public class EndState extends BaseState implements GameStateInterface {
     @Override
     public void touchEvents(MotionEvent event) {
         switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN -> this.game.setCurrentGameState(GameStates.MENU);
+            case MotionEvent.ACTION_DOWN:
+                this.leaderboardShown = false;
+                this.game.setCurrentGameState(GameStates.MENU);
+                ((MainActivity)MainActivity.getContext()).hideLeaderboard();
         }
     }
     public void onNewScore(double newScore){

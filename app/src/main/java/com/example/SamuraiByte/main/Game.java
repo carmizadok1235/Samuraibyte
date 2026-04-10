@@ -61,6 +61,8 @@ public class Game {
         this.holder.unlockCanvasAndPost(c);
     }
     public void update(double delta){
+        if (MainActivity.isLeaderboardShown() && this.currentGameState != GameStates.END)
+            ((MainActivity)MainActivity.getContext()).hideLeaderboard();
         switch (this.currentGameState){
             case MENU:
                 this.menuState.update(delta);
