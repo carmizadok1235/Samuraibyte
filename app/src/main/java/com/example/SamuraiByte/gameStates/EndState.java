@@ -70,17 +70,17 @@ public class EndState extends BaseState implements GameStateInterface {
 //            }
 //        }
     }
-    private int getAfterDotLength(double score){
-        if (score > 10000)
-            return 0;
-        if (score > 1000)
-            return 1;
-        if (score > 100)
-            return 2;
-        if (score > 10)
-            return 3;
-        return 4;
-    }
+//    private int getAfterDotLength(double score){
+//        if (score > 10000)
+//            return 0;
+//        if (score > 1000)
+//            return 1;
+//        if (score > 100)
+//            return 2;
+//        if (score > 10)
+//            return 3;
+//        return 4;
+//    }
 
     @Override
     public void touchEvents(MotionEvent event) {
