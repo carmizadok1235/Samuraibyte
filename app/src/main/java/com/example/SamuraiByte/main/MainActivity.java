@@ -74,7 +74,10 @@ public class MainActivity extends AppCompatActivity {
                 leaderboardAdapter = new LeaderboardAdapter(scores);
                 recyclerView.setAdapter(leaderboardAdapter);
             }
-            leaderboardAdapter.setLeaderboardValues(scores);
+            else{
+                leaderboardAdapter.setLeaderboardValues(scores);
+                leaderboardAdapter.notifyDataSetChanged();
+            }
 //            RecyclerView recyclerView = leaderboardView.findViewById(R.id.leaderboard_recycler);
 //            recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

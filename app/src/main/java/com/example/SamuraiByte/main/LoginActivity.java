@@ -144,6 +144,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if (this.checkInput(name, password) && this.dbHandler.loginCheckInDB(name, password)){
 //                Toast.makeText(this, "Login successfull", Toast.LENGTH_SHORT).show();
                 this.respondBoxLogin.setText("Login successfull");
+                this.dbHandler.close();
                 this.writePrefContents(name, password);
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("USERNAME", name);
