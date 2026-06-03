@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private static GamePanel gamePanel;
     private static View leaderboardView;
     private static boolean leaderboardShown;
+    private static LeaderboardAdapter leaderboardAdapter;
+    private static RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +62,21 @@ public class MainActivity extends AppCompatActivity {
         leaderboardView.setVisibility(View.GONE);
         frameLayout.addView(leaderboardView);
 
+        recyclerView = leaderboardView.findViewById(R.id.leaderboard_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        leaderboardAdapter = null;
+
         setContentView(frameLayout);
     }
     public void showLeaderboard(NameAndScore[] scores) {
         runOnUiThread(() -> {
-            RecyclerView recyclerView = leaderboardView.findViewById(R.id.leaderboard_recycler);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(new LeaderboardAdapter(scores));
+            if (leaderboardAdapter == null){
+                leaderboardAdapter = new LeaderboardAdapter(scores);
+                recyclerView.setAdapter(leaderboardAdapter);
+            }
+            leaderboardAdapter.setLeaderboardValues(scores);
+//            RecyclerView recyclerView = leaderboardView.findViewById(R.id.leaderboard_recycler);
+//            recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
             leaderboardView.setVisibility(View.VISIBLE);

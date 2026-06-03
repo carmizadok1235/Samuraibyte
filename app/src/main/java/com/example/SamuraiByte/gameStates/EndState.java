@@ -98,8 +98,10 @@ public class EndState extends BaseState implements GameStateInterface {
 //            this.leaderboardHandler.addNewLeaderboardCourse(username, newScore);
 //            this.leaderboardValues = this.leaderboardHandler.getLeaderboardArray();
 //        }
+//        System.out.print("in on new score");
         double currentScore = this.leaderboardHandler.readLeaderboardScore(username);
         if (currentScore == -1 || newScore < currentScore) {
+//            System.out.println("updating leaderboard");
             this.leaderboardHandler.updateLeaderboardCourse(username, newScore);
         }
         this.leaderboardValues = this.leaderboardHandler.getLeaderboardArray();

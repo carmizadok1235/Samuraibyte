@@ -16,6 +16,10 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         this.leaderboardValues = leaderboardValues;
     }
 
+    public void setLeaderboardValues(NameAndScore[] leaderboardValues) {
+        this.leaderboardValues = leaderboardValues;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
