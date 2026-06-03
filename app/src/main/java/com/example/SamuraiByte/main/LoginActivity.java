@@ -28,7 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.SamuraiByte.R;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    private Context context;
+//    private Context context;
     private ActivityResultLauncher<Intent> contactLauncher;
     private Button loginButtonLoginPage, registerButtonLoginPage, registerButtonPopup;
     private ImageButton contactButtonLogin, contactButtonRegister;
@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        this.context = this;
+//        this.context = this;
 
         this.loginButtonLoginPage = (Button) findViewById(R.id.login_buttonLogin);
         this.loginButtonLoginPage.setOnClickListener(this);
@@ -173,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.popup_register);
         dialog.setCancelable(true);
-        Context context = this;
+//        Context context = this;
 
         this.nameInputRegister = (EditText) dialog.findViewById(R.id.name_inputRegister);
         this.emailInputRegister = (EditText) dialog.findViewById(R.id.email_inputRegister);

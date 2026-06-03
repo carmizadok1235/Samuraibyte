@@ -13,7 +13,10 @@ public class GameLoop implements Runnable{
         int fps = 0;
         long lastDeltaTime = System.nanoTime();
         long NANOSEC = 1_000_000_000;
+        long TARGET_FPS = 60;
+        long OPTIMAL_TIME = NANOSEC / TARGET_FPS;
         while (true){
+
             long nowDeltaTime = System.nanoTime();
             double timeSinceLastDelta = nowDeltaTime - lastDeltaTime;
             double deltaTime = timeSinceLastDelta/NANOSEC;
@@ -22,6 +25,18 @@ public class GameLoop implements Runnable{
             this.game.render();
 
             lastDeltaTime = nowDeltaTime;
+
+            long sleepTime = (OPTIMAL_TIME - (System.nanoTime() - nowDeltaTime)) / 1_000_000;
+            if (sleepTime > 0){
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+//            java.io.File fdFolder = new java.io.File("/proc/self/fd");
+//            if (fdFolder.listFiles() != null)
+//                System.out.println("Open FDs: " + fdFolder.listFiles().length);
 
             fps++;
             long now = System.currentTimeMillis();

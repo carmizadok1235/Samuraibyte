@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     public void hideLeaderboard() {
         runOnUiThread(() -> {
             leaderboardView.setVisibility(View.GONE);
-            gamePanel.getGame().setCurrentGameState(GameStates.MENU);
+//            gamePanel.getGame().setCurrentGameState(GameStates.MENU);
             leaderboardShown = false;
         });
     }

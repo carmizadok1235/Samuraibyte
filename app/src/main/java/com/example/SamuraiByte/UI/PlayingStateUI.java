@@ -21,7 +21,7 @@ public class PlayingStateUI {
 
     // For UI
     private PointF joystickCenterPos, innerJoystickCenterPos, attackButtonCenterPos;
-    private float joystickRadius;
+    private float joystickRadius, innerJoystickRadius;
     private float attackButtonRadius;
     private Paint redPaint, bluePaint;
     private boolean insideJoystickTouch;
@@ -39,6 +39,7 @@ public class PlayingStateUI {
         this.joystickCenterPos = new PointF(MainActivity.GAME_WIDTH/7, MainActivity.GAME_HEIGHT - MainActivity.GAME_HEIGHT/4);
         this.innerJoystickCenterPos = new PointF(MainActivity.GAME_WIDTH/7, MainActivity.GAME_HEIGHT - MainActivity.GAME_HEIGHT/4);
         this.joystickRadius = 150;
+        this.innerJoystickRadius = 70;
         this.attackButtonRadius = 75;
         this.redPaint = new Paint();
         this.redPaint.setColor(Color.RED);
@@ -83,12 +84,12 @@ public class PlayingStateUI {
     }
     private void drawJoystick(Canvas c){
         c.drawBitmap(this.outerCircle, this.joystickCenterPos.x-this.joystickRadius, this.joystickCenterPos.y-this.joystickRadius, null);
-        c.drawBitmap(this.innerCircle, this.innerJoystickCenterPos.x-70, this.innerJoystickCenterPos.y-70, null);
+        c.drawBitmap(this.innerCircle, this.innerJoystickCenterPos.x-this.innerJoystickRadius, this.innerJoystickCenterPos.y-this.innerJoystickRadius, null);
     }
 
     private void drawHeartLevel(Canvas c) {
         switch (this.playingState.getPlayer().getHeartLevel()){
-            case HEART_LEVEL_ZERO -> c.drawBitmap(HeartImages.HEART_ZERO.getImage(), 10, 300, null);
+//            case HEART_LEVEL_ZERO -> c.drawBitmap(HeartImages.HEART_ZERO.getImage(), 10, 300, null);
             case HEART_LEVEL_ONE -> c.drawBitmap(HeartImages.HEART_ONE.getImage(), 10, 300, null);
             case HEART_LEVEL_TWO -> c.drawBitmap(HeartImages.HEART_TWO.getImage(), 10, 300, null);
             case HEART_LEVEL_THREE -> c.drawBitmap(HeartImages.HEART_THREE.getImage(), 10, 300, null);
@@ -160,7 +161,7 @@ public class PlayingStateUI {
                     this.playingState.setAttacking(false);
                     this.attackButton.setPushed(false);
                 }
-                else if (this.menuButton.isInButton(eventPos)){
+                else if (pointerId == this.menuButton.getPointerId() && this.menuButton.isInButton(eventPos)){
                     this.resetJoystickButton();
                     this.playingState.setGameState(GameStates.MENU);
                     this.menuButton.setPushed(false);

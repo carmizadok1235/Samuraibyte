@@ -39,26 +39,32 @@ public class Game {
         this.gameLoop.startLoop();
     }
     public void render(){
-        Canvas c = this.holder.lockCanvas();
-        c.drawColor(Color.BLACK);
+        Canvas c = null;
+//        Canvas c = this.holder.lockCanvas();
+        try{
+            c = this.holder.lockCanvas();
+            c.drawColor(Color.BLACK);
 
 //        System.out.println(this.currentGameState);
-        switch (this.currentGameState){
-            case MENU:
-                this.menuState.render(c);
-                break;
-            case PLAYING:
-                this.playingState.render(c);
-                break;
-            case END:
-                this.endState.render(c);
-                break;
-            case DEAD:
-                this.deadState.render(c);
-                break;
+            switch (this.currentGameState){
+                case MENU:
+                    this.menuState.render(c);
+                    break;
+                case PLAYING:
+                    this.playingState.render(c);
+                    break;
+                case END:
+                    this.endState.render(c);
+                    break;
+                case DEAD:
+                    this.deadState.render(c);
+                    break;
+            }
         }
-
-        this.holder.unlockCanvasAndPost(c);
+        finally {
+            if (c != null)
+                this.holder.unlockCanvasAndPost(c);
+        }
     }
     public void update(double delta){
         if (MainActivity.isLeaderboardShown() && this.currentGameState != GameStates.END)
