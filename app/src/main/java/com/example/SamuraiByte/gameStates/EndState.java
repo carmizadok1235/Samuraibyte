@@ -38,6 +38,7 @@ public class EndState extends BaseState implements GameStateInterface {
     public void update(double delta) {
         if (!this.leaderboardShown){
             this.leaderboardShown = true;
+//            if (this.leaderboardValues != null)
             ((MainActivity)MainActivity.getContext()).showLeaderboard(this.leaderboardValues);
         }
     }
@@ -93,13 +94,14 @@ public class EndState extends BaseState implements GameStateInterface {
     }
     public void onNewScore(double newScore){
         String username = MainActivity.getUsername();
-        if (!this.leaderboardHandler.checkInLeaderboardDB(username)){
-            this.leaderboardHandler.addNewLeaderboardCourse(username, newScore);
-            this.leaderboardValues = this.leaderboardHandler.getLeaderboardArray();
-        }
-        else if (newScore < this.leaderboardHandler.readLeaderboardScore(username)) {
+//        if (!this.leaderboardHandler.checkInLeaderboardDB(username)){
+//            this.leaderboardHandler.addNewLeaderboardCourse(username, newScore);
+//            this.leaderboardValues = this.leaderboardHandler.getLeaderboardArray();
+//        }
+        double currentScore = this.leaderboardHandler.readLeaderboardScore(username);
+        if (currentScore == -1 || newScore < currentScore) {
             this.leaderboardHandler.updateLeaderboardCourse(username, newScore);
-            this.leaderboardValues = this.leaderboardHandler.getLeaderboardArray();
         }
+        this.leaderboardValues = this.leaderboardHandler.getLeaderboardArray();
     }
 }

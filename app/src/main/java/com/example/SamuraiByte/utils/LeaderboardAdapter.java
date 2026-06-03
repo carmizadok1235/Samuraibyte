@@ -26,6 +26,8 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if (this.leaderboardValues == null)
+            return;
         NameAndScore entry = leaderboardValues[position];
         holder.tvRank.setText(String.valueOf(position + 1));
         holder.tvName.setText(entry.getName());
